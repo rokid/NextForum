@@ -1,6 +1,6 @@
-# Rokid Forum
+# Rokid NextForum
 
-该项目是基于 Vue/Vuex 技术栈，对 Discourse 论坛前端的深度改造，界面优雅、功能丰富、小巧迅速。
+NextForum 是基于 Vue/Vuex 技术栈，对 Discourse 论坛前端的深度改造，界面优雅、功能丰富、小巧迅速。
 是 Rokid 下一代开放社区论坛的前端技术架构。
 
 > 新域名：敬请期待
