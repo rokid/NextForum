@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="controls">
-      <el-select v-model="orderBy" size="small" @change="load()">
+      <el-select v-model="orderBy" size="small" @change="reload()">
         <el-option key="latest"
           :label="orderType.latest" value="latest"></el-option>
         <el-option key="top"

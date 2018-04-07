@@ -5,6 +5,8 @@
 
 > 新域名：敬请期待
 
+[![img](screenshot.png)](screenshot.png)
+
 ### 本地运行
 
 ```sh
