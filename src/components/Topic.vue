@@ -51,7 +51,7 @@
                   </span>
                   <template>
                     <el-input size="small" autofocus
-                      :value="`https://forum.rokid.com/t/${item.id}?u=${username}#${index}`" />
+                      :value="`https://forum.rokid.com/topic/${item.id}?u=${username}#${index}`" />
                     <el-button type="primary" size="small" class="share-popover-copybtn">复制链接</el-button>
                   </template>
                 </el-popover>

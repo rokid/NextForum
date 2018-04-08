@@ -6,7 +6,7 @@
           <el-button>新建讨论</el-button>
         </li>
         <li class="text-button all-discussion" :class="isActive('all') ? 'active' : ''">
-          <router-link to="/c/all">
+          <router-link to="/category/all">
             <fa-icon :icon="['far', 'comments']" class="icon" />
             <span>所有讨论</span>
           </router-link>
@@ -21,7 +21,7 @@
         <li class="text-button" 
           :class="isActive(item) ? 'active': ''" 
           v-for="item in categories">
-          <router-link :to="`/c/${categoryName(item)}`" :title="item.description">
+          <router-link :to="`/category/${categoryName(item)}`" :title="item.description">
             <i class="color-icon icon" :style="`background:#${item.color}`" />
             <span>{{item.name}}</span>
           </router-link>
@@ -70,7 +70,7 @@ export default {
     isActive(item) {
       const id = item === 'all' ? 'all' : this.categoryName(item)
       if (this.$route.name === 'CategoryDetail'
-        && this.$route.path === `/c/${id}`) {
+        && this.$route.path === `/category/${id}`) {
         return true
       }
       return false

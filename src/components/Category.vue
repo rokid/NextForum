@@ -12,7 +12,7 @@
       <fa-icon icon="spinner" class="fa-spin" size="2x"></fa-icon>
     </div>
     <ul v-infinite-scroll="more" infinite-scroll-distance="10">
-      <li class="topic" @click="goTopic(item.id)" v-for="item in topics">
+      <li class="topic" @click="goTopic(item)" v-for="item in topics">
         <div class="topic-avatar">
           <img :src="avatar(item.posters[0].user_id)" />
         </div>
@@ -91,10 +91,12 @@ export default {
         return val
       }
     },
-    goTopic(id) {
-      this.$router.push({
-        path: `/t/${id}`,
-      })
+    goTopic(item) {
+      let path = `/topic/${item.id}`
+      if (this.orderBy === 'latest') {
+        path = `${path}#${item.posts_count - 1}`
+      }
+      this.$router.push({ path })
     },
     calendar(date) {
       return moment(date).fromNow()
@@ -114,6 +116,7 @@ export default {
       this.nextUrl = response.data.topic_list.more_topics_url
     },
     async reload(id) {
+      this.$scrollTo('body', 300)
       this.state = 'init'
       if (!id)
         id = this.$route.params.id

@@ -4,6 +4,8 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import Category from '@/components/Category'
 import Topic from '@/components/Topic'
+import Notification from '@/components/Notification'
+import Search from '@/components/Search'
 
 Vue.use(Router)
 
@@ -12,14 +14,22 @@ export default new Router({
   routes: [{
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
   }, {
-    path: '/c/:id',
+    path: '/category/:id',
     name: 'CategoryDetail',
-    component: Category
+    component: Category,
   }, {
-    path: '/t/:id',
+    path: '/topic/:id',
     name: 'TopicDetail',
-    component: Topic
+    component: Topic,
+  }, {
+    path: '/notifications',
+    name: 'Notification',
+    component: Notification,
+  }, {
+    path: '/search',
+    name: 'Search',
+    component: Search,
   }]
 })

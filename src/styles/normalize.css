@@ -1,0 +1,22 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  outline: none;
+}
+
+ul, li, ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  color: #111;
+  font-size: 13px;
+  background: #2d3339;
+}

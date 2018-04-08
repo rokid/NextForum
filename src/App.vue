@@ -11,10 +11,11 @@
         <div id="header-controls">
           <div id="header-search-box">
             <fa-icon icon="search" />
-            <input placeholder="搜索帖子、问答" />
+            <input ref="searchInput" 
+              placeholder="搜索帖子、问答" v-model="query" @keyup="search" />
           </div>
           <div id="header-user-box">
-            <router-link id="header-notification" to="/notification">
+            <router-link id="header-notification" to="/notifications">
               <el-badge :is-dot="allNotifications.length > 0">
                 <fa-icon icon="bell" />
               </el-badge>
@@ -62,7 +63,8 @@ export default {
   data() {
     return {
       scrolled: false,
-      loginUrl: `https://developer-forum.rokid.com/session/sso?return_path=${location.href}`
+      loginUrl: `https://developer-forum.rokid.com/session/sso?return_path=${location.href}`,
+      query: null,
     }
   },
   computed: {
@@ -75,6 +77,15 @@ export default {
     ...mapActions(['login']),
     onscroll() {
       this.scrolled = window.scrollY > 0
+    },
+    search(event) {
+      if (event.keyCode === 13) {
+        this.$router.push({
+          path: `/search?q=${this.query}`,
+        })
+        this.query = null
+        this.$refs.searchInput.blur()
+      }
     },
   },
   mounted() {
@@ -89,31 +100,7 @@ export default {
   },
 }
 </script>
-
 <style>
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  outline: none;
-}
-
-ul, li, ol {
-  list-style: none;
-}
-
-a {
-  text-decoration: none;
-}
-
-body {
-  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  color: #111;
-  font-size: 13px;
-  background: #2d3339;
-}
-
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

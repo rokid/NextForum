@@ -11,7 +11,7 @@
         </h3>
         <ul>
           <li v-for="item in excellentTopics.slice(0, 5)">
-            <router-link :to="`/t/${item.id}`" :title="item.title">{{item.title}}</router-link>
+            <router-link :to="`/topic/${item.id}`" :title="item.title">{{item.title}}</router-link>
           </li>
         </ul>
       </div>
@@ -22,7 +22,7 @@
         </h3>
         <ul>
           <li v-for="item in tutorialTopics.slice(0, 5)">
-            <router-link :to="`/t/${item.id}`" :title="item.title">{{item.title}}</router-link>
+            <router-link :to="`/topic/${item.id}`" :title="item.title">{{item.title}}</router-link>
           </li>
         </ul>
       </div>
@@ -35,7 +35,7 @@
         </h3>
         <ul>
           <li v-for="item in eventTopics.slice(0, 5)">
-            <router-link :to="`/t/${item.id}`" :title="item.title">{{item.title}}</router-link>
+            <router-link :to="`/topic/${item.id}`" :title="item.title">{{item.title}}</router-link>
           </li>
         </ul>
       </div>
@@ -46,7 +46,7 @@
         </h3>
         <ul>
           <li v-for="item in issueTopics.slice(0, 5)">
-            <router-link :to="`/t/${item.id}`" :title="item.title">{{item.title}}</router-link>
+            <router-link :to="`/topic/${item.id}`" :title="item.title">{{item.title}}</router-link>
           </li>
         </ul>
       </div>
