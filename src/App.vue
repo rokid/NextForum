@@ -10,11 +10,16 @@
         </ul>
         <div id="header-controls">
           <div id="header-search-box">
-            <i class="" />
+            <fa-icon icon="search" />
             <input placeholder="搜索帖子、问答" />
           </div>
-          <a id="header-login-btn" :href="loginUrl" v-if="!authorized">登录</a>
-          <a id="header-login-btn" v-else :href="profileUrl">{{username}}</a>
+          <div id="header-user-box">
+            <router-link id="header-notification" to="/notification">
+              <fa-icon icon="bell" />
+            </router-link>
+            <a id="header-login-btn" :href="loginUrl" v-if="!authorized">登录</a>
+            <a id="header-login-btn" v-else :href="profileUrl">{{username}}</a>
+          </div>
         </div>
       </div>
     </header>
@@ -43,12 +48,14 @@
 
 <script>
 import Sidebar from '@/components/Sidebar'
+import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'App',
   components: {
     Sidebar,
+    'fa-icon': FontAwesomeIcon,
   },
   data() {
     return {
@@ -64,6 +71,9 @@ export default {
   methods: {
     ...mapActions(['login']),
   },
+  mounted() {
+    this.$store.dispatch('fetchCsrfToken')
+  }
 }
 </script>
 
@@ -147,10 +157,16 @@ body {
 #header-search-box {
   display: inline-block;
   overflow: hidden;
+  position: relative;
 }
 
-#header-search-box input {
-  float: left;
+#header-search-box > svg {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+}
+
+#header-search-box > input {
   font-size: 13px;
   font-weight: bold;
   background: #e7edf3;
@@ -169,6 +185,15 @@ body {
   width: 300px;
   background: #fff;
   border: 2px solid #e7672e;
+}
+
+#header-user-box {
+  margin-left: 10px;
+  display: inline-block;
+}
+
+#header-user-box > a {
+  float: left;
 }
 
 #header-login-btn {

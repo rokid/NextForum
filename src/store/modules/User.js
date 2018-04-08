@@ -8,7 +8,6 @@ const state = {
 
 const mutations = {
   login(state, { username }) {
-    console.log(username)
     state.username = username
     state.authorized = true
   },

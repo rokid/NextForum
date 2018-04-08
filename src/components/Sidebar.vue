@@ -79,7 +79,6 @@ export default {
   async mounted() {
     const response = await this.$http.get(`/categories.json`)
     this.categories = response.data.category_list.categories
-    console.log(this.categories)
   },
 }
 </script>

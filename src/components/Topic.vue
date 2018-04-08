@@ -6,7 +6,10 @@
       </div>
       <h1>{{title}}</h1>
       <ul>
-        <li class="post" v-for="(item, index) in posts">
+        <li class="post"
+          :id="`post${index}`"
+          v-view="postViewHandler.bind(null, index)"
+          v-for="(item, index) in posts">
           <div class="avatar">
             <img :src="avatar(item.avatar_template)"
               :height="avatarSize" 
@@ -47,7 +50,7 @@
                   </span>
                   <template>
                     <el-input size="small" autofocus
-                      :value="`https://forum.rokid.com/t/${item.id}/${index}?u=${username}`" />
+                      :value="`https://forum.rokid.com/t/${item.id}?u=${username}#${index}`" />
                     <el-button type="primary" size="small" class="share-popover-copybtn">复制链接</el-button>
                   </template>
                 </el-popover>
@@ -97,6 +100,8 @@ export default {
       posts: [],
       avatarSize: 48,
       loading: true,
+      rendered: false,
+      viewList: [],
       rawTopic: {},
       contents: '',
       replyToPostId: null,
@@ -225,11 +230,18 @@ export default {
       } else {
         resultPost = response.data
       }
-      console.log(response.data)
 
       this.posts.push(resultPost)
       this.contents = ''
       this.replyToPostId = null
+    },
+    postViewHandler(index, event) {
+      if (this.rendered) {
+        if (event.type === 'enter') {
+          window.location.hash = index
+          return
+        }
+      }
     },
   },
   async mounted() {
@@ -240,6 +252,17 @@ export default {
     this.title = res.data.title
     this.posts = res.data.post_stream.posts
     this.loading = false
+
+    setTimeout(() => {
+      if (this.$route.hash) {
+        this.$scrollTo(`#post${this.$route.hash.slice(1)}`, 300, {
+          offset: -52,
+        })
+        setTimeout(() => this.rendered = true, 300)
+      } else {
+        this.rendered = true
+      }
+    }, 300)
   },
 }
 </script>

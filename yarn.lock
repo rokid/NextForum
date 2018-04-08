@@ -5682,6 +5682,10 @@ vue-affix@^0.2.4:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/vue-affix/-/vue-affix-0.2.4.tgz#4f599f10517cab95a2d628029f91edb83316afe7"
 
+vue-check-view@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/vue-check-view/-/vue-check-view-0.2.3.tgz#0bb8175908eee6e0975c63de71cfc445d251d97a"
+
 vue-cookie@^1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/vue-cookie/-/vue-cookie-1.1.4.tgz#b8b46d112bda9f93a2f47017c2ed5282d2064fda"
@@ -5717,6 +5721,12 @@ vue-loader@^13.3.0:
 vue-router@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.1.tgz#d9b05ad9c7420ba0f626d6500d693e60092cc1e9"
+
+vue-scrollactive@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/vue-scrollactive/-/vue-scrollactive-0.6.1.tgz#2091bf25364ad37f32dfee2d9ead47d2005d3f28"
+  dependencies:
+    bezier-easing "^2.0.3"
 
 vue-scrollto@^2.11.0:
   version "2.11.0"

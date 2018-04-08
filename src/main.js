@@ -5,6 +5,7 @@ import VueCookie from 'vue-cookie'
 import VueAffix from 'vue-affix'
 import VueScrollTo from 'vue-scrollto'
 import VueInfiniteScroll from 'vue-infinite-scroll'
+import VueCheckView from 'vue-check-view'
 import ElementUI from 'element-ui'
 import popover from 'element-ui/packages/popover/src/directive'
 
@@ -24,8 +25,8 @@ fontawesome.library.add(faSolid)
 moment.locale('zh-CN')
 
 const httpOpts = {
-  // baseURL: 'https://developer-forum.rokid.com',
-  baseURL: 'http://forum.rokid.com:8888/',
+  baseURL: 'https://developer-forum.rokid.com',
+  // baseURL: 'http://forum.rokid.com:8888/',
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
   },
@@ -58,6 +59,7 @@ Vue.use(VueCookie)
 Vue.use(VueAffix)
 Vue.use(VueScrollTo)
 Vue.use(VueInfiniteScroll)
+Vue.use(VueCheckView)
 Vue.use(ElementUI)
 Vue.directive('popover', popover)
 
