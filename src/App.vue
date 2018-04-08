@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <header id="app-header">
+    <header id="app-header" :class="scrolled ? 'layup' : ''">
       <div class="inner">
         <img id="header-logo" src="http://s.rokidcdn.com/forum/logo.png" />
         <ul id="header-index">
@@ -61,6 +61,7 @@ export default {
   },
   data() {
     return {
+      scrolled: false,
       loginUrl: `https://developer-forum.rokid.com/session/sso?return_path=${location.href}`
     }
   },
@@ -72,10 +73,19 @@ export default {
   },
   methods: {
     ...mapActions(['login']),
+    onscroll() {
+      this.scrolled = window.scrollY > 0
+    },
   },
   mounted() {
     this.$store.dispatch('fetchCsrfToken')
     this.$store.dispatch('loadNotifications')
+  },
+  beforeMount() {
+    window.addEventListener('scroll', this.onscroll)
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.onscroll)
   },
 }
 </script>
@@ -117,7 +127,12 @@ body {
   padding: 8px;
   height: 52px;
   width: 100%;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #d3d3d3;
+  transition: all .4s;
+}
+
+#app-header.layup {
+  box-shadow: 1px 1px 4px #ccc;
 }
 
 #app-header .inner {
