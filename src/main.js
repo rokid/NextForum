@@ -14,7 +14,9 @@ import moment from 'moment'
 import fontawesome from '@fortawesome/fontawesome'
 import faRegular from '@fortawesome/fontawesome-free-regular'
 import faSolid from '@fortawesome/fontawesome-free-solid'
+
 import 'element-ui/lib/theme-chalk/index.css'
+import '@/styles/post.css'
 
 import App from './App'
 import router from './router'

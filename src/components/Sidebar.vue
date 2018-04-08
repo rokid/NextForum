@@ -3,7 +3,7 @@
     <affix relative-element-selector="#app-main" :offset="{ top: 40, bottom: 30 }" style="width:190px">
       <ul>
         <li class="new-discussion">
-          <button>新建讨论</button>
+          <el-button>新建讨论</el-button>
         </li>
         <li class="text-button all-discussion" :class="isActive('all') ? 'active' : ''">
           <router-link to="/c/all">

@@ -1,0 +1,118 @@
+.post-body h1,
+.post-body h2,
+.post-body h3,
+.post-body h4 {
+  line-height: 2;
+  margin-top: 10px;
+}
+.post-body h1 {
+  font-size: 16px;
+}
+.post-body h2 {
+  font-size: 15px;
+}
+.post-body h3, .post-body h4, .post-body p {
+  font-size: 14px;
+}
+.post-body p {
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+.post-body a {
+  color: #0366d6;
+}
+.post-body a:hover {
+  text-decoration: underline;
+}
+.post-body ul, .post-body ol {
+  padding-left: 2em;
+  margin: 10px 0;
+}
+.post-body li {
+  list-style: outside;
+  margin: 5px 0;
+}
+.post-body blockquote {
+  padding: 0 1em;
+  color: #6a737d;
+  border-left: 0.25em solid #dfe2e5;
+  margin: 10px 0;
+}
+.post-body li > code,
+.post-body p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+.post-body pre {
+  margin: 10px 0;
+  padding: 16px;
+  width: 600px;
+  overflow: scroll;
+  font-size: 85%;
+  line-height: 1.45;
+  background: #f6f8fa;
+  border-radius: 3px;
+  word-break: normal;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+.post-body li > img,
+.post-body p > img {
+  height: 120px;
+  width: auto;
+  display: block;
+  margin: 30px auto;
+  border: 1px solid #c9c9c9;
+  border-radius: 2px;
+  box-shadow: 1px 1px 3px #ccc;
+}
+.post-body img.emoji {
+  display: inline;
+  height: 20px;
+  width: 20px;
+  border: 0;
+  margin: 0;
+  box-shadow: none;
+}
+.post-body .lightbox-wrapper {
+  width: 100%;
+  text-align: center;
+}
+.post-body .lightbox-wrapper a {
+  width: 80%;
+  margin: 20px 0;
+  display: inline-block;
+}
+.post-body .lightbox-wrapper a > img {
+  width: 100%;
+  height: auto;
+  border: 0;
+  margin: 10px 0;
+}
+.post-body .lightbox-wrapper .meta {
+  display: none;
+}
+.post-body .onebox {
+  margin: 10px 0;
+  padding: 10px;
+  border: 4px solid #eee;
+  border-radius: 4px;
+}
+.post-body .onebox > header img {
+  height: 16px;
+  width: 16px;
+  float: left;
+  margin-right: 5px;
+}
+.post-body .onebox > header a {
+  font-size: 16px;
+  line-height: 16px;
+}
+.post-body .onebox > article img {
+  height: 60px;
+  width: 60px;
+  float: left;
+  margin-right: 10px;
+}
