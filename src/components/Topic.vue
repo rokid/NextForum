@@ -238,7 +238,9 @@ export default {
     postViewHandler(index, event) {
       if (this.rendered) {
         if (event.type === 'enter') {
-          window.location.hash = index
+          this.$router.replace({
+            path: `#${index}`,
+          })
           return
         }
       }
