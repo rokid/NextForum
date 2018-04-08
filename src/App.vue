@@ -15,7 +15,9 @@
           </div>
           <div id="header-user-box">
             <router-link id="header-notification" to="/notification">
-              <fa-icon icon="bell" />
+              <el-badge :is-dot="allNotifications.length > 0">
+                <fa-icon icon="bell" />
+              </el-badge>
             </router-link>
             <a id="header-login-btn" :href="loginUrl" v-if="!authorized">登录</a>
             <a id="header-login-btn" v-else :href="profileUrl">{{username}}</a>
@@ -63,7 +65,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['authorized', 'username']),
+    ...mapGetters(['authorized', 'username', 'allNotifications']),
     profileUrl() {
       return `https://developer-forum.rokid.com/u/${this.username}/`
     },
@@ -73,7 +75,8 @@ export default {
   },
   mounted() {
     this.$store.dispatch('fetchCsrfToken')
-  }
+    this.$store.dispatch('loadNotifications')
+  },
 }
 </script>
 
