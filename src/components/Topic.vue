@@ -19,6 +19,7 @@
             <div class="post-header">
               <span class="username">{{item.display_username}}</span>
               <span class="datetime">{{calendar(item.created_at)}}</span>
+              <span class="floor">#{{index}}</span>
             </div>
             <div class="post-body" v-html="item.cooked"></div>
             <div class="post-summary">
@@ -101,7 +102,6 @@ export default {
       avatarSize: 48,
       loading: true,
       rendered: false,
-      viewList: [],
       rawTopic: {},
       contents: '',
       replyToPostId: null,
@@ -314,6 +314,9 @@ export default {
 .post-header .datetime {
   color: #667d99;
 }
+.post-header .floor {
+  float: right;
+}
 .post-body {
   padding-top: 10px;
 }
@@ -333,6 +336,7 @@ export default {
 .post-summary-right-controls {
   width: 120px;
   float: right;
+  text-align: right;
 }
 .post-summary-right-controls a {
   width: 50px;
@@ -399,7 +403,7 @@ export default {
 .post-body h2 {
   font-size: 15px;
 }
-.post-body h3, .post-body h4 {
+.post-body h3, .post-body h4, .post-body p {
   font-size: 14px;
 }
 .post-body p {
