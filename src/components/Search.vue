@@ -9,11 +9,21 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      categories: [],
+      topics: [],
     }
   },
   components: {
     'fa-icon': FontAwesomeIcon,
+  },
+  watch: {
+    $route(to, from) {
+      
+    },
+  },
+  async mounted() {
+    const response = await this.$http.get('/search/query?term=' + this.$route.query.q)
+    this.topics = response.data.topics
+    console.log(response.data)
   },
 }
 </script>
