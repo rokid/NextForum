@@ -14,6 +14,9 @@ const getters = {
   allNotifications() {
     return state.all
   },
+  unreadNotifications() {
+    return state.all.filter((item) => !item.read)
+  },
 }
 
 const actions = {

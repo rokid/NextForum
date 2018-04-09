@@ -1,23 +1,116 @@
 <template>
-  <div>notification</div>
+  <div class="container">
+    <ul>
+      <li class="list-item"
+        :class="item.read ? 'read' : ''"
+        @click="redirect(item)" 
+        v-for="item in allNotifications">
+        <div class="item-avatar">
+          <fa-icon :icon="iconName(item.notification_type)" style="font-size:18px" />
+        </div>
+        <div class="item-main">
+          <p v-if="item.notification_type === 2">
+            <b>{{item.data.display_username}}</b>
+            回复了你
+            <a>{{item.fancy_title}}</a>
+          </p>
+          <p v-if="item.notification_type === 5">
+            <b>{{item.data.display_username}}</b>
+            赞了你在
+            <router-link :to="`/topic/${item.topic_id}`">{{item.fancy_title}}</router-link>
+            中的回复
+          </p>
+          <p v-if="item.notification_type === 6">
+            <b>{{item.data.display_username}}</b>
+            给你发送了消息
+            <a>{{item.fancy_title}}</a>
+          </p>
+        </div>
+        <div class="item-right">
+          <span>{{formatDate(item.created_at)}}</span>
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import moment from 'moment'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+
 export default {
   name: 'Notification',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App',
-      categories: [],
-    }
+  computed: {
+    ...mapGetters(['allNotifications']),
   },
   components: {
     'fa-icon': FontAwesomeIcon,
+  },
+  methods: {
+    iconName(type) {
+      if (type === 2) {
+        return 'reply'
+      } else if (type === 5) {
+        return ['far', 'heart']
+      } else if (type === 6) {
+        return ['far', 'envelope']
+      }
+    },
+    formatDate(d) {
+      return moment(d).fromNow()
+    },
+    redirect(item) {
+      this.$router.push({
+        path: `/topic/${item.topic_id}#${item.post_number - 1}`,
+      })
+    },
+  },
+  mounted() {
+    this.$scrollTo('body', 300)
   },
 }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.container {
+  padding: 30px;
+}
+.list-item {
+  display: flex;
+  cursor: pointer;
+  padding: 12px;
+  border-radius: 4px;
+  transition: all .3s;
+}
+.list-item.read {
+  opacity: 0.55;
+}
+.list-item:hover {
+  background: rgb(231, 237, 243);
+  opacity: 1;
+}
+.item-avatar {
+  flex: 1;
+}
+.item-avatar img {
+  height: 36px;
+  width: 36px;
+  border-radius: 18px;
+}
+.item-main {
+  flex: 14;
+}
+.item-main h3 {
+  color: #667d99;
+  font-size: 16px;
+  font-weight: bold;
+}
+.item-main p {
+  color: #787878;
+}
+.item-right {
+  flex: 3;
+  text-align: right;
+}
 </style>

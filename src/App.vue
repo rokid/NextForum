@@ -16,7 +16,7 @@
           </div>
           <div id="header-user-box">
             <router-link id="header-notification" to="/notifications">
-              <el-badge :is-dot="allNotifications.length > 0">
+              <el-badge :is-dot="unreadNotifications.length > 0">
                 <fa-icon icon="bell" />
               </el-badge>
             </router-link>
@@ -68,7 +68,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['authorized', 'username', 'allNotifications']),
+    ...mapGetters(['authorized', 'username', 'unreadNotifications']),
     profileUrl() {
       return `https://developer-forum.rokid.com/u/${this.username}/`
     },
