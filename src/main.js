@@ -28,7 +28,7 @@ fontawesome.library.add(faSolid)
 moment.locale('zh-CN')
 
 const httpOpts = {
-  baseURL: 'https://forum.rokid.com/discourse',
+  baseURL: 'https://forum.rokid.com',
   // baseURL: 'http://forum-dev.rokid.com:8080',
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
