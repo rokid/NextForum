@@ -15,11 +15,13 @@ app.use('/discourse/*', (req, res) => {
       host: targetHost,
     }
   }
+  console.log(options)
   const proxyRequest = https.request(options, (proxyResponse) => {
     for (let name in proxyResponse.headers) {
       res.setHeader(name, proxyResponse.headers[name])
     }
-    res.status = proxyResponse.statusCode
+    console.log(proxyResponse.headers)
+    res.status(proxyResponse.statusCode)
     proxyResponse.pipe(res, { end: true })
   })
   req.pipe(proxyRequest, { end: true })

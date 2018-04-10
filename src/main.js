@@ -29,7 +29,7 @@ moment.locale('zh-CN')
 
 const httpOpts = {
   baseURL: 'https://forum.rokid.com/discourse',
-  // baseURL: 'http://localhost:8080/discourse',
+  // baseURL: 'http://forum-dev.rokid.com:8080',
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
   },
@@ -39,17 +39,24 @@ const httpOpts = {
 
 Vue.config.productionTip = false
 
-const http = Vue.http = Vue.prototype.$http = axios.create(httpOpts)
-http.interceptors.response.use((response) => {
-  const username = response.headers['x-discourse-username']
-  if (username)
-    store.dispatch('login', { username })
+function createHttp(opts) {
+  const _http = axios.create(opts)
+  _http.interceptors.request.use((config) => {
+    config.url = '/discourse' + config.url
+    return config
+  })
+  _http.interceptors.response.use((response) => {
+    const username = response.headers['x-discourse-username']
+    if (username) 
+      store.dispatch('login', { username })
+    return response
+  })
+  return _http
+}
 
-  return response
-})
-
+Vue.http = Vue.prototype.$http = createHttp(httpOpts)
 Vue.registerWithCsrfToken = function(token) {
-  Vue.http = Vue.prototype.$http = axios.create({
+  Vue.http = Vue.prototype.$http = createHttp({
     ...httpOpts,
     headers: {
       'X-Requested-With': 'XMLHttpRequest',

@@ -6,15 +6,17 @@ const state = {
 
 const mutations = {
   replace(state, list) {
-    state.all = list
+    if (list)
+      state.all = list
   },
 }
 
 const getters = {
-  allNotifications() {
+  allNotifications(state) {
     return state.all
   },
-  unreadNotifications() {
+  unreadNotifications(state) {
+    console.log(state)
     return state.all.filter((item) => !item.read)
   },
 }
