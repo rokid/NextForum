@@ -15,5 +15,4 @@ COPY config         /opt/app/config
 COPY static         /opt/app/static
 
 EXPOSE 8080
-CMD [ "ls", "/opt/app" ]
-# CMD [ "npm", "start" ]
+CMD [ "npm", "start" ]
