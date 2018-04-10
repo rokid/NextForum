@@ -5,6 +5,7 @@ WORKDIR /opt/app
 COPY package.json   /opt/app/
 RUN  npm install
 
+COPY .babelrc       /opt/app/
 COPY .postcssrc.js  /opt/app/
 COPY yarn.lock      /opt/app/
 COPY index.html     /opt/app/
