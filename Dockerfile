@@ -3,8 +3,6 @@ RUN mkdir -p /opt/app
 WORKDIR /opt/app
 
 COPY package.json   /opt/app/
-RUN  npm install
-RUN  npm run build
 
 COPY .babelrc       /opt/app/
 COPY .postcssrc.js  /opt/app/
@@ -12,10 +10,12 @@ COPY yarn.lock      /opt/app/
 COPY index.html     /opt/app/
 
 COPY src            /opt/app/src
-COPY dist           /opt/app/dist
 COPY build          /opt/app/build
 COPY config         /opt/app/config
 COPY static         /opt/app/static
+
+RUN  npm install
+RUN  npm run build
 
 EXPOSE 8080
 CMD [ "npm", "start" ]
