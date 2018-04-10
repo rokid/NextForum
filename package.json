@@ -5,8 +5,8 @@
   "author": "Yazhong Liu <yazhong.liu@rokid.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js --port 8080",
-    "start": "npm run dev",
+    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js --port 80",
+    "start": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js --port 8080",
     "build": "node build/build.js"
   },
   "dependencies": {

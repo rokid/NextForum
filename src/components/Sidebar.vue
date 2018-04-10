@@ -25,6 +25,11 @@
             <i class="color-icon icon" :style="`background:#${item.color}`" />
             <span>{{item.name}}</span>
           </router-link>
+          <ul class="sub-categories" v-if="isActive(item)">
+            <li v-for="subItem in subCategories">
+              <p>foobar</p>
+            </li>
+          </ul>
         </li>
         <li class="separator"></li>
         <li class="text-button">
@@ -58,6 +63,7 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       categories: [],
+      subCategories: [],
     }
   },
   components: {
