@@ -66,7 +66,9 @@ export default {
       if (id === 'all') {
         this.nextUrl = `/${this.orderBy}.json`
       } else if (id === 'activity') {
-        this.nextUrl = `/${this.orderBy}.json?tag=活动`
+        this.nextUrl = `/${this.orderBy}.json?tags=活动`
+      } else if (id === 'faq') {
+        this.nextUrl = `/${this.orderBy}.json?tags=faq`
       } else {
         this.nextUrl = `/c/${id}/l/${this.orderBy}.json?no_subcategories=false`
       }

@@ -5,8 +5,8 @@
         <img id="header-logo" src="http://s.rokidcdn.com/forum/logo.png" />
         <ul id="header-index">
           <li><router-link to="/">首页</router-link></li>
-          <li><a href="/guidance">新手指南</a></li>
-          <li><a href="/faq">FAQ</a></li>
+          <li><router-link to="/guidance">新手指南</router-link></li>
+          <li><router-link to="/category/faq">FAQ</router-link></li>
         </ul>
         <div id="header-controls">
           <div id="header-search-box">
