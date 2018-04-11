@@ -4,7 +4,7 @@
       <fa-icon icon="spinner" class="fa-spin" size="2x"></fa-icon>
     </div>
     <ul v-infinite-scroll="onLoadMore" infinite-scroll-distance="10">
-      <li class="topic" @click="goTopic(item)" v-for="item in topics">
+      <li class="topic" @click="onClickItem(item)" v-for="item in topics">
         <div class="topic-avatar">
           <img :src="avatar(item.posters[0].user_id)" />
         </div>
@@ -50,7 +50,7 @@ export default {
   components: {
     'fa-icon': FontAwesomeIcon,
   },
-  props: ['topics', 'users', 'fetch'],
+  props: ['topics', 'users', 'fetch', 'onClickItem'],
   data() {
     return {
       state: 'init',
@@ -73,13 +73,6 @@ export default {
       } else {
         return val
       }
-    },
-    goTopic(item) {
-      let path = `/topic/${item.id}`
-      if (this.orderBy === 'latest') {
-        path = `${path}#${item.posts_count - 1}`
-      }
-      this.$router.push({ path })
     },
     async onLoadMore() {
       this.state = 'next'

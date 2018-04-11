@@ -53,6 +53,7 @@ export default {
       })
     },
     async execSearch() {
+      await this.$scrollTo('body', 300)
       this.raw = {}
       this.posts = []
       this.state = 'init'

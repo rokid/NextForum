@@ -28,8 +28,8 @@ fontawesome.library.add(faSolid)
 moment.locale('zh-CN')
 
 const httpOpts = {
-  baseURL: 'https://forum.rokid.com',
-  // baseURL: 'http://forum-dev.rokid.com:8080',
+  // baseURL: 'https://developer-forum.rokid.com/',
+  baseURL: 'http://forum-dev.rokid.com:8888/',
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
   },
@@ -41,10 +41,6 @@ Vue.config.productionTip = false
 
 function createHttp(opts) {
   const _http = axios.create(opts)
-  _http.interceptors.request.use((config) => {
-    config.url = '/discourse' + config.url
-    return config
-  })
   _http.interceptors.response.use((response) => {
     const username = response.headers['x-discourse-username']
     if (username) 

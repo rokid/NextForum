@@ -12,7 +12,8 @@
       ref="topicList"
       :topics="topics"
       :users="users"
-      :fetch="fetch" />
+      :fetch="fetch"
+      :onClickItem="goTopic" />
   </div>
 </template>
 
@@ -68,6 +69,13 @@ export default {
         this.nextUrl = `/c/${id}/l/${this.orderBy}.json?no_subcategories=false`
       }
       await this.$refs.topicList.reload()
+    },
+    goTopic(item) {
+      let path = `/topic/${item.id}`
+      if (this.orderBy === 'latest') {
+        path = `${path}#${item.posts_count - 1}`
+      }
+      this.$router.push({ path })
     },
   },
   watch: {

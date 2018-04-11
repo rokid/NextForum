@@ -117,20 +117,16 @@ export default {
 
 .new-discussion button {
   color: #fff;
-  cursor: pointer;
   background: #e7672e;
   border: 0;
-  border-radius: 4px;
   width: 100%;
   font-size: inherit;
   font-weight: bold;
-  padding: 8px 20px;
-  text-align: center;
-  user-select: none;
+  transition: all .3s
 }
 
 .new-discussion button:hover {
-  background: #e86124;
+  opacity: .8;
 }
 
 .text-button {

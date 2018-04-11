@@ -297,14 +297,15 @@ export default {
   border-bottom: 1px solid #e7edf3;
 }
 .post .avatar {
-  flex: 1;
+  width: 85px;
 }
 .post .avatar img {
   border-radius: 24px;
   border: 1px solid #ececec;
 }
 .post .contents {
-  flex: 9;
+  width: 100%;
+  overflow: auto;
 }
 .post-header {
   font-size: 14px;

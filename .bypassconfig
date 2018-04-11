@@ -2,8 +2,8 @@
   "listen": 8888,
   "targetURL": "https://developer-forum.rokid.com",
   "outgoing": {
+    "access-control-allow-origin": "http://forum-dev.rokid.com",
     "access-control-allow-headers": "+Content-Type",
-    "access-control-expose-headers": "x-discourse-username, x-discourse-route",
-    "x-discourse-username": "yorkiefixer"
+    "access-control-expose-headers": "x-discourse-username, x-discourse-route"
   }
 }

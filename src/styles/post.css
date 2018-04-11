@@ -1,3 +1,8 @@
+.post-body hr {
+  border: 0;
+  border-bottom: 1px solid #cacaca;
+  margin: 10px 0;
+}
 .post-body h1,
 .post-body h2,
 .post-body h3,
@@ -17,6 +22,7 @@
 .post-body p {
   line-height: 1.8;
   margin-bottom: 10px;
+  word-break: break-all;
 }
 .post-body a {
   color: #0366d6;
@@ -49,7 +55,6 @@
 .post-body pre {
   margin: 10px 0;
   padding: 16px;
-  width: 600px;
   overflow: scroll;
   font-size: 85%;
   line-height: 1.45;
@@ -60,8 +65,8 @@
 }
 .post-body li > img,
 .post-body p > img {
-  height: 120px;
-  width: auto;
+  height: auto;
+  width: 95%;
   display: block;
   margin: 30px auto;
   border: 1px solid #c9c9c9;
