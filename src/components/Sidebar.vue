@@ -18,10 +18,10 @@
           </a>
         </li>
         <li class="text-button">
-          <a href="/">
+          <router-link to="/category/activity" :class="isActive('activity') ? 'active' : ''">
             <fa-icon icon="dove" class="icon" />
             <span>活动</span>
-          </a>
+          </router-link>
         </li>
         <li class="separator"></li>
         <li class="text-button" 
@@ -61,7 +61,13 @@ export default {
       return item.slug ? item.slug : `${item.id}-category`
     },
     isActive(item) {
-      const id = item === 'all' ? 'all' : this.categoryName(item)
+      let id
+      if (item === 'all')
+        id = 'all'
+      else if (item === 'activity')
+        id = 'activity'
+      else
+        id = this.categoryName(item)
       if (this.$route.name === 'CategoryDetail'
         && this.$route.path === `/category/${id}`) {
         return true
