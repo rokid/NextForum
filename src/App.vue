@@ -160,7 +160,8 @@ export default {
 }
 
 #header-search-box {
-  display: inline-block;
+  float: left;
+  display: block;
   overflow: hidden;
   position: relative;
 }
