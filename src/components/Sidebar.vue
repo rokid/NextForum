@@ -17,6 +17,12 @@
             <span>标签</span>
           </a>
         </li>
+        <li class="text-button">
+          <a href="/">
+            <fa-icon icon="dove" class="icon" />
+            <span>活动</span>
+          </a>
+        </li>
         <li class="separator"></li>
         <li class="text-button" 
           :class="isActive(item) ? 'active': ''" 
@@ -30,25 +36,6 @@
               <p>foobar</p>
             </li>
           </ul>
-        </li>
-        <li class="separator"></li>
-        <li class="text-button">
-          <a href="/">
-            <fa-icon icon="fire" class="icon" />
-            <span>热门</span>
-          </a>
-        </li>
-        <li class="text-button">
-          <a href="/">
-            <fa-icon icon="dove" class="icon" />
-            <span>活动</span>
-          </a>
-        </li>
-        <li class="text-button">
-          <a href="/">
-            <fa-icon icon="parachute-box" class="icon" />
-            <span>活跃用户</span>
-          </a>
         </li>
       </ul>
     </affix>
