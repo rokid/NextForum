@@ -40,7 +40,9 @@ const actions = {
   logout({ commit }) {
     commit('logout')
   },
-  async fetchCsrfToken({ commit }) {
+  async fetchCsrfToken({ commit, state }) {
+    if (state.csrf)
+      return;
     const { data } = await Vue.http.get('/session/csrf.json')
     commit('setCsrfToken', data.csrf)
     Vue.registerWithCsrfToken(data.csrf)
