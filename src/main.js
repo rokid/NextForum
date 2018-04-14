@@ -42,7 +42,7 @@ function createHttp(opts) {
   const _http = axios.create(opts)
   _http.interceptors.response.use((response) => {
     const username = response.headers['x-discourse-username']
-    if (username) 
+    if (username)
       store.dispatch('login', { username })
     return response
   })

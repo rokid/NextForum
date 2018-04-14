@@ -143,7 +143,7 @@ export default {
 }
 .topic-summary > li {
   display: inline-block;
-  width: 40px;
+  width: 45px;
   text-align: left;
 }
 </style>
