@@ -17,8 +17,8 @@
             <span>标签</span>
           </a>
         </li>
-        <li class="text-button">
-          <router-link to="/category/activity" :class="isActive('activity') ? 'active' : ''">
+        <li class="text-button" :class="isActive('activity') ? 'active' : ''">
+          <router-link to="/category/activity">
             <fa-icon icon="dove" class="icon" />
             <span>活动</span>
           </router-link>

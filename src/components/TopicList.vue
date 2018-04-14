@@ -54,6 +54,7 @@ export default {
   data() {
     return {
       state: 'init',
+      loadable: false,
     }
   },
   methods: {
@@ -75,6 +76,8 @@ export default {
       }
     },
     async onLoadMore() {
+      if (!this.loadable)
+        return;
       this.state = 'next'
       await this.$props.fetch()
       this.state = 'finished'
@@ -83,6 +86,7 @@ export default {
       this.state = 'init'
       await this.$props.fetch()
       this.state = 'finished'
+      this.loadable = true
     },
   }
 }
