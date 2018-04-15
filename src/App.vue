@@ -115,7 +115,6 @@ export default {
   height: 52px;
   width: 100%;
   border-bottom: 1px solid #d3d3d3;
-  transition: all .4s;
 }
 
 #app-header.layup {

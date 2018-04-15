@@ -19,4 +19,11 @@ body {
   color: #111;
   font-size: 13px;
   background: #2d3339;
+  width: 100%;
+
+  /**
+   * overwrite element.io's style
+   */
+  padding-right: 0px !important;
+  overflow-y: scroll !important;
 }

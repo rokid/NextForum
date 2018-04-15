@@ -4,8 +4,10 @@
     <el-dialog title="新建讨论" 
       center
       class="new-discussion-dialog"
-      width="40%" 
-      :visible.sync="newDiscussionDialogVisible">
+      width="40%"
+      :visible.sync="newDiscussionDialogVisible"
+      @open="onNewDiscussionDialogOpen"
+      @close="onNewDiscussionDialogClose">
       <new-discussion />
       <div slot="footer">
         <el-button @click="newDiscussionDialogVisible = false">取消</el-button>
@@ -128,6 +130,12 @@ export default {
       }
       this.subCategories = await this.getCategories(curr.id)
     },
+    onNewDiscussionDialogOpen() {
+      document.body.style.position = 'fixed'
+    },
+    onNewDiscussionDialogClose() {
+      document.body.style.position = 'static'
+    }
   },
   async mounted() {
     await Promise.all([
