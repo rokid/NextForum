@@ -28,7 +28,7 @@ const actions = {
     let parent = null
 
     if (parentId) {
-      parent = dispatch('findCategoryById', { id: parentId })
+      parent = await dispatch('findCategoryById', { id: parentId })
       // FIXME(Yorkie): if parent.children exists, just returns the current children,
       // that means will not be updated if not refreshed.
       if (parent && parent.children && parent.children.length > 0)
@@ -52,12 +52,12 @@ const actions = {
     }
     return parent.find(item => item.id === id)
   },
-  findCategoryBySlug({ commit, dispatch }, slug) {
+  async findCategoryBySlug({ commit, dispatch }, slug) {
     let id
     const mslug = slug.match(/^(\d+)\-category$/)
     if (mslug && mslug.length === 2) {
       id = parseInt(mslug, 10)
-      return dispatch('findCategoryById', { id })
+      return await dispatch('findCategoryById', { id })
     } else {
       return state.all.find(item => item.slug === slug)
     }

@@ -45,9 +45,13 @@
             <i class="color-icon icon" :style="`background:#${item.color}`" />
             <span>{{item.name}}</span>
           </router-link>
-          <ul class="sub-categories">
-            <li v-for="subItem in subCategories">
-              <p>123</p>
+          <ul class="sub-categories" v-if="isActive(item)">
+            <li v-for="subItem in subCategories"
+              class="text-button"
+              :class="isSubActive(subItem) ? 'active' : ''">
+              <router-link :to="`/category/${categoryName(item)}/${categoryName(subItem)}`">
+                <span>{{subItem.name}}</span>
+              </router-link>
             </li>
           </ul>
         </li>
@@ -75,26 +79,13 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'editorToolbar',
-      'allTags',
       'allCategories',
     ]),
-    // async subCategories() {
-    //   const curr = await this.findCategoryBySlug(this.$route.params.id)
-    //   if (curr && curr.id) {
-    //     const list = await this.getCategories(curr.id)
-    //     console.log(list)
-    //     return list
-    //   } else {
-    //     return []
-    //   }
-    // },
   },
   methods: {
     ...mapActions([
       'getTags',
       'getCategories',
-      'findCategoryById',
       'findCategoryBySlug',
     ]),
     categoryName(item) {
@@ -108,15 +99,34 @@ export default {
         id = 'activity'
       else
         id = this.categoryName(item)
-      if (this.$route.name === 'CategoryDetail'
-        && this.$route.path === `/category/${id}`) {
+
+      if (this.$route.name === 'CategoryDetail' &&
+        this.$route.params.id === id) {
         return true
+      } else {
+        return false
       }
-      return false
+    },
+    isSubActive(item) {
+      const id = this.categoryName(item)
+      if (this.$route.name === 'CategoryDetail' &&
+        this.$route.params.subId === id) {
+        return true
+      } else {
+        return false
+      }
     },
     async postNewDiscussion() {
       // ready for data
       this.newDiscussionDialogVisible = false
+    },
+    async checkSubCategories(route = this.$route) {
+      this.subCategories = []
+      const curr = await this.findCategoryBySlug(route.params.id)
+      if (!curr || !curr.has_children || !curr.id) {
+        return
+      }
+      this.subCategories = await this.getCategories(curr.id)
     },
   },
   async mounted() {
@@ -124,6 +134,12 @@ export default {
       this.getCategories(),
       this.getTags(),
     ])
+    await this.checkSubCategories()
+  },
+  watch: {
+    async $route(to, from) {
+      await this.checkSubCategories(to)
+    },
   },
 }
 </script>
@@ -137,15 +153,17 @@ export default {
   font-size: 14px;
   padding-top: 30px;
 }
-#sidebar ul {
-  /*margin-top: 30px;*/
-}
-#sidebar li.active {
-  font-weight: bold;
-}
 #sidebar li.active > a {
+  transition: all .3s;
+  font-weight: bold;
   color: #333;
 }
+#sidebar ul.sub-categories li.active > a {
+  font-weight: bold;
+  color: #5e5e5e;
+  text-decoration: underline;
+}
+
 .new-discussion {
   margin-bottom: 20px;
 }
@@ -163,9 +181,9 @@ export default {
 }
 
 .text-button {
-  height: 35px;
   width: 100%;
   display: flex;
+  margin: 12px 0;
   flex-direction: column;
   justify-content: center;
 }
@@ -182,6 +200,13 @@ export default {
   height: 16px;
   text-align: center;
   margin-right: 12px;
+}
+ul.sub-categories {
+  margin: 0 28px;
+}
+ul.sub-categories .text-button {
+  margin: 6px 0;
+  font-size: 14px;
 }
 .separator {
   height: 1px;

@@ -55,22 +55,25 @@ export default {
       this.users = this.users.concat(response.data.users)
       this.nextUrl = response.data.topic_list.more_topics_url
     },
-    async reload(id) {
+    async reload(slug, subSlug) {
       this.$scrollTo('body', 300)
-      if (!id)
-        id = this.$route.params.id
+      if (!slug) {
+        slug = this.$route.params.id
+        subSlug = this.$route.params.subId
+      }
 
       this.topics.length = 0
       this.users.length = 0
 
-      if (id === 'all') {
+      if (slug === 'all') {
         this.nextUrl = `/${this.orderBy}.json`
-      } else if (id === 'activity') {
+      } else if (slug === 'activity') {
         this.nextUrl = `/${this.orderBy}.json?tags=活动`
-      } else if (id === 'faq') {
+      } else if (slug === 'faq') {
         this.nextUrl = `/${this.orderBy}.json?tags=faq`
       } else {
-        this.nextUrl = `/c/${id}/l/${this.orderBy}.json?no_subcategories=false`
+        let slugs = [slug, subSlug].filter(item => !!item).join('/')
+        this.nextUrl = `/c/${slugs}/l/${this.orderBy}.json?no_subcategories=false`
       }
       await this.$refs.topicList.reload()
     },
@@ -84,11 +87,13 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.reload(to.params.id)
+      const { id, subId } = to.params
+      this.reload(id, subId)
     },
   },
   mounted() {
-    this.reload(this.$route.params.id)
+    const { id, subId } = this.$route.params
+    this.reload(id, subId)
   },
 }
 </script>
