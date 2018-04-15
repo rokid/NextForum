@@ -6,37 +6,7 @@
       class="new-discussion-dialog"
       width="40%" 
       :visible.sync="newDiscussionDialogVisible">
-      <el-form size="small">
-        <el-form-item label="主题" :label-width="newDiscussionForm.labelWidth">
-          <el-input class="input-body" placeholder="输入讨论的主题"
-            v-model="newDiscussionForm.data.topic"></el-input>
-        </el-form-item>
-        <el-form-item label="分类" :label-width="newDiscussionForm.labelWidth">
-          <el-cascader
-            class="input-body"
-            :options="newDiscussionForm.categories"
-            @active-item-change="loadSubCategories"
-            v-model="newDiscussionForm.data.category">
-          </el-cascader>
-        </el-form-item>
-        <el-form-item label="标签（可选）" :label-width="newDiscussionForm.labelWidth">
-          <el-select
-            class="input-body"
-            multiple
-            filterable
-            v-model="newDiscussionForm.data.tags"
-            placeholder="请选择讨论的标签，可多选">
-            <el-option
-              v-for="tag in newDiscussionForm.tags"
-              :key="tag" :label="tag" :value="tag">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label-width="newDiscussionForm.labelWidth">
-          <vue-editor v-model="newDiscussionForm.data.contents" 
-            :editorToolbar.sync="editorToolbar"></vue-editor>
-        </el-form-item>
-      </el-form>
+      <new-discussion />
       <div slot="footer">
         <el-button @click="newDiscussionDialogVisible = false">取消</el-button>
         <el-button type="primary" @click="postNewDiscussion">发送</el-button>
@@ -75,9 +45,9 @@
             <i class="color-icon icon" :style="`background:#${item.color}`" />
             <span>{{item.name}}</span>
           </router-link>
-          <ul class="sub-categories" v-if="isActive(item)">
+          <ul class="sub-categories">
             <li v-for="subItem in subCategories">
-              <p>foobar</p>
+              <p>123</p>
             </li>
           </ul>
         </li>
@@ -88,26 +58,19 @@
 
 <script>
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
-import { VueEditor } from 'vue2-editor'
 import { mapGetters, mapActions } from 'vuex'
+import NewDiscussion from './NewDiscussion'
 
 export default {
-  name: 'Home',
+  name: 'Sidebar',
+  components: {
+    NewDiscussion,
+    'fa-icon': FontAwesomeIcon,
+  },
   data () {
     return {
       subCategories: [],
       newDiscussionDialogVisible: false,
-      newDiscussionForm: {
-        labelWidth: '140px',
-        categories: [],
-        tags: [],
-        data: {
-          topic: null,
-          category: null,
-          tags: [],
-          contents: null,
-        },
-      },
     }
   },
   computed: {
@@ -115,21 +78,25 @@ export default {
       'editorToolbar',
       'allTags',
       'allCategories',
-      'findCategoryById',
     ]),
-    categoriesOption() {
-      return this.createCategoriesOption(this.allCategories)
-    },
-    tagsOption() {
-      return this.allTags.map(tag => tag.id)
-    },
-  },
-  components: {
-    VueEditor,
-    'fa-icon': FontAwesomeIcon,
+    // async subCategories() {
+    //   const curr = await this.findCategoryBySlug(this.$route.params.id)
+    //   if (curr && curr.id) {
+    //     const list = await this.getCategories(curr.id)
+    //     console.log(list)
+    //     return list
+    //   } else {
+    //     return []
+    //   }
+    // },
   },
   methods: {
-    ...mapActions(['getCategories', 'getTags']),
+    ...mapActions([
+      'getTags',
+      'getCategories',
+      'findCategoryById',
+      'findCategoryBySlug',
+    ]),
     categoryName(item) {
       return item.slug ? item.slug : `${item.id}-category`
     },
@@ -147,30 +114,6 @@ export default {
       }
       return false
     },
-    createCategoriesOption(list, ownChildren = true) {
-      return list.map((item) => {
-        const option = {
-          label: item.name,
-          value: item.id,
-        }
-        if (!item.has_children)
-          return option
-
-        option.children = ownChildren ? [] : undefined
-        return option
-      })
-    },
-    async loadSubCategories(val) {
-      const parentId = val[val.length - 1]
-      this.newDiscussionForm.data.category = [parentId]
-
-      const { categories } = this.newDiscussionForm
-      const category = categories.find(item => item.value === parentId)
-      if (category) {
-        category.children = this.createCategoriesOption(
-          await this.getCategories(parentId), false)
-      }
-    },
     async postNewDiscussion() {
       // ready for data
       this.newDiscussionDialogVisible = false
@@ -181,8 +124,6 @@ export default {
       this.getCategories(),
       this.getTags(),
     ])
-    this.newDiscussionForm.categories = this.categoriesOption
-    this.newDiscussionForm.tags = this.tagsOption
   },
 }
 </script>
@@ -219,13 +160,6 @@ export default {
 }
 .new-discussion button:hover {
   opacity: .8;
-}
-
-/*
- * new discussion dialog
- */
-.input-body {
-  width: 100%;
 }
 
 .text-button {

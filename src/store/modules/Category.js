@@ -6,12 +6,11 @@ const state = {
 }
 
 const mutations = {
-  updateCategoriesList(state, { list, canCreateTopic, parent }) {
-    if (!parent) {
+  updateCategoriesList(state, { list, canCreateTopic, isRoot, parent }) {
+    if (isRoot) {
       state.canCreateTopic = canCreateTopic
       state.all = list || []
-      console.log('updateCategoriesList', list)
-    } else {
+    } else if (parent) {
       parent.children = list
     }
   },
@@ -21,23 +20,15 @@ const getters = {
   allCategories(state) {
     return state.all
   },
-  findCategoryById(state) {
-    return (id, parent) => {
-      if (!parent) {
-        parent = state.all
-      }
-      parent.find(item => item.id === id)
-    }
-  },
 }
 
 const actions = {
-  async getCategories({ commit, getters }, parentId) {
+  async getCategories({ commit, dispatch }, parentId) {
     let pathname = '/categories.json'
     let parent = null
 
     if (parentId) {
-      parent = getters.findCategoryById(parentId)
+      parent = dispatch('findCategoryById', { id: parentId })
       // FIXME(Yorkie): if parent.children exists, just returns the current children,
       // that means will not be updated if not refreshed.
       if (parent && parent.children && parent.children.length > 0)
@@ -50,9 +41,26 @@ const actions = {
       list: categories,
       canCreateTopic: data.category_list.can_create_topic,
       parent,
+      isRoot: parentId ? false : true,
     }
     commit('updateCategoriesList', options)
     return options.list
+  },
+  findCategoryById({ state }, { id, parent }) {
+    if (!parent) {
+      parent = state.all
+    }
+    return parent.find(item => item.id === id)
+  },
+  findCategoryBySlug({ commit, dispatch }, slug) {
+    let id
+    const mslug = slug.match(/^(\d+)\-category$/)
+    if (mslug && mslug.length === 2) {
+      id = parseInt(mslug, 10)
+      return dispatch('findCategoryById', { id })
+    } else {
+      return state.all.find(item => item.slug === slug)
+    }
   },
 }
 
