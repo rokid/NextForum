@@ -53,6 +53,7 @@
   border-radius: 3px;
 }
 .post-body pre {
+  width: 570px;
   margin: 10px 0;
   padding: 16px;
   overflow: auto;
@@ -62,6 +63,9 @@
   border-radius: 3px;
   word-break: normal;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+.post-body pre > code {
+  overflow: auto;
 }
 .post-body li > img,
 .post-body p > img {
