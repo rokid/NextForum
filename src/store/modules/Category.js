@@ -1,60 +1,58 @@
 import Vue from 'vue';
 
 const state = {
-  excellent: [],
-  tutorials: [],
-  issues: [],
-  events: [],
+  canCreateTopic: null,
+  all: [],
 }
 
 const mutations = {
-  // updateExcellentTopics(state, list) {
-  //   state.excellent = list
-  // },
-  // updateTutorialTopics(state, list) {
-  //   state.tutorials = list
-  // },
-  // updateIssueTopics(state, list) {
-  //   state.issues = list
-  // },
-  // updateEventTopics(state, list) {
-  //   state.events = list
-  // },
+  updateCategoriesList(state, { list, canCreateTopic, parent }) {
+    if (!parent) {
+      state.canCreateTopic = canCreateTopic
+      state.all = list || []
+    } else {
+      parent.children = list
+    }
+  },
 }
 
 const getters = {
-  // excellentTopics(state) {
-  //   return state.excellent
-  // },
-  // tutorialTopics(state) {
-  //   return state.tutorials
-  // },
-  // issueTopics(state) {
-  //   return state.issues
-  // },
-  // eventTopics(state) {
-  //   return state.events
-  // },
+  allCategories(state) {
+    return state.all
+  },
+  findCategoryById(state) {
+    return (id, parent) => {
+      if (!parent) {
+        parent = state.all
+      }
+      parent.find(item => item.id === id)
+    }
+  },
 }
 
 const actions = {
-  // async pollAllTopics({ commit }) {
-  //   const select = res => res.data.topic_list.topics
-  //   const render = (key) => {
-  //     return (list) => commit(key, list)
-  //   }
+  async getCategories({ commit, getters }, parentId) {
+    let pathname = '/categories.json'
+    let parent = null
 
-  //   await Promise.all([
-  //     Vue.http.get('/top/all.json?tags=极客教程')
-  //       .then(select).then(render('updateExcellentTopics')),
-  //     Vue.http.get('/top/all.json?tags=官方教程')
-  //       .then(select).then(render('updateTutorialTopics')),
-  //     Vue.http.get('/latest.json?tag=常见问题')
-  //       .then(select).then(render('updateIssueTopics')),
-  //     Vue.http.get('/latest.json?tag=活动')
-  //       .then(select).then(render('updateEventTopics')),
-  //   ])
-  // },
+    if (parentId) {
+      parent = getters.findCategoryById(parentId)
+      // FIXME(Yorkie): if parent.children exists, just returns the current children,
+      // that means will not be updated if not refreshed.
+      if (parent && parent.children && parent.children.length > 0)
+        return parent.children
+      pathname += `?parent_category_id=${parentId}`
+    }
+    const { data } = await Vue.http.get(pathname)
+    const { categories } = data.category_list || []
+    const options = {
+      list: categories,
+      canCreateTopic: data.category_list.can_create_topic,
+      parent,
+    }
+    commit('updateCategoriesList', options)
+    return options.list
+  },
 }
 
 export default {

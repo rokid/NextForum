@@ -67,7 +67,7 @@
             </div>
             <vue-editor v-model="contents"
               ref="replyEditor"
-              :editorToolbar="customToolbar"></vue-editor>
+              :editorToolbar.sync="editorToolbar"></vue-editor>
             <div class="reply-footer">
               <el-button type="primary" size="small" @click="sendReply()">
                 <fa-icon icon="reply" /> 发送
@@ -105,15 +105,6 @@ export default {
       rawTopic: {},
       contents: '',
       replyToPostId: null,
-      customToolbar: [
-        ['bold', 'italic', 'underline'],
-        [{
-          'list': 'ordered'
-        }, {
-          'list': 'bullet'
-        }],
-        ['image', 'code-block'],
-      ],
     }
   },
   components: {
@@ -122,7 +113,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'username'
+      'username',
+      'editorToolbar',
     ]),
   },
   methods: {
@@ -356,8 +348,6 @@ export default {
   display: block;
   margin: 0 0 10px 0;
 }
-</style>
-<style>
 /**
  * editor css
  */
@@ -370,22 +360,5 @@ export default {
 }
 .reply-footer {
   margin-top: 10px;
-}
-
-.quillWrapper {
-  border: 1px solid #c3c3c3;
-  border-radius: 4px;
-  box-shadow: 1px 1px 3px #eee;
-}
-.quillWrapper .ql-toolbar button > svg {
-  height: 18px !important;
-  width: 18px !important;
-}
-.ql-toolbar, .ql-container {
-  border: 0 !important;
-}
-.ql-editor {
-  min-height: 130px !important;
-  padding: 0 10px 10px 10px !important;
 }
 </style>

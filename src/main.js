@@ -18,6 +18,7 @@ import faSolid from '@fortawesome/fontawesome-free-solid'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/styles/normalize.css'
 import '@/styles/post.css'
+import '@/styles/editor.css'
 
 import App from './App'
 import router from './router'
