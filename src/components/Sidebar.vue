@@ -23,6 +23,7 @@
           <el-select
             class="input-body"
             multiple
+            filterable
             v-model="newDiscussionForm.data.tags"
             placeholder="请选择讨论的标签，可多选">
             <el-option
@@ -38,7 +39,7 @@
       </el-form>
       <div slot="footer">
         <el-button @click="newDiscussionDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="newDiscussionDialogVisible = false">发送</el-button>
+        <el-button type="primary" @click="postNewDiscussion">发送</el-button>
       </div>
     </el-dialog>
 
@@ -69,7 +70,7 @@
         <li class="separator"></li>
         <li class="text-button" 
           :class="isActive(item) ? 'active': ''" 
-          v-for="item in categories">
+          v-for="item in allCategories">
           <router-link :to="`/category/${categoryName(item)}`" :title="item.description">
             <i class="color-icon icon" :style="`background:#${item.color}`" />
             <span>{{item.name}}</span>
@@ -94,17 +95,12 @@ export default {
   name: 'Home',
   data () {
     return {
-      categories: [],
       subCategories: [],
       newDiscussionDialogVisible: false,
       newDiscussionForm: {
         labelWidth: '140px',
         categories: [],
-        tags: [
-          '官方教程',
-          '开发接入',
-          '未回答',
-        ],
+        tags: [],
         data: {
           topic: null,
           category: null,
@@ -117,11 +113,15 @@ export default {
   computed: {
     ...mapGetters([
       'editorToolbar',
+      'allTags',
       'allCategories',
       'findCategoryById',
     ]),
     categoriesOption() {
       return this.createCategoriesOption(this.allCategories)
+    },
+    tagsOption() {
+      return this.allTags.map(tag => tag.id)
     },
   },
   components: {
@@ -129,7 +129,7 @@ export default {
     'fa-icon': FontAwesomeIcon,
   },
   methods: {
-    ...mapActions(['getCategories']),
+    ...mapActions(['getCategories', 'getTags']),
     categoryName(item) {
       return item.slug ? item.slug : `${item.id}-category`
     },
@@ -170,12 +170,19 @@ export default {
         category.children = this.createCategoriesOption(
           await this.getCategories(parentId), false)
       }
-      console.log()
-    }
+    },
+    async postNewDiscussion() {
+      // ready for data
+      this.newDiscussionDialogVisible = false
+    },
   },
   async mounted() {
-    this.categories = await this.getCategories()
+    await Promise.all([
+      this.getCategories(),
+      this.getTags(),
+    ])
     this.newDiscussionForm.categories = this.categoriesOption
+    this.newDiscussionForm.tags = this.tagsOption
   },
 }
 </script>

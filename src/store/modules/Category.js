@@ -10,6 +10,7 @@ const mutations = {
     if (!parent) {
       state.canCreateTopic = canCreateTopic
       state.all = list || []
+      console.log('updateCategoriesList', list)
     } else {
       parent.children = list
     }
