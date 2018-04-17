@@ -135,13 +135,16 @@ export default {
 }
 .rokid-col ul {
   min-height: 100px;
+  margin-left: 5px;
 }
 .rokid-col li {
   margin: 5px 0;
+  list-style: circle inside;
 }
 
 .rokid-col li a {
   color: #667d99;
+  font-size: 14px;
   transition: all .3s;
   overflow: hidden;
 }

@@ -33,7 +33,7 @@ const getters = {
     return state.issues
   },
   eventTopics(state) {
-    return state.events
+    return state.events.filter(topic => topic.visible)
   },
 }
 
