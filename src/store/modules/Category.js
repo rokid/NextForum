@@ -53,6 +53,9 @@ const actions = {
     return parent.find(item => item.id === id)
   },
   async findCategoryBySlug({ commit, dispatch }, slug) {
+    if (!slug)
+      return;
+
     let id
     const mslug = slug.match(/^(\d+)\-category$/)
     if (mslug && mslug.length === 2) {

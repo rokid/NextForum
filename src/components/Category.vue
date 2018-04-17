@@ -81,7 +81,7 @@ export default {
     },
     goTopic(item) {
       let path = `/topic/${item.id}`
-      if (this.orderBy === 'latest') {
+      if (this.orderBy === 'latest' && item.posts_count > 1) {
         path = `${path}#${item.posts_count - 1}`
       }
       this.$router.push({ path })

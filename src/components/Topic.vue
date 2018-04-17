@@ -276,6 +276,9 @@ export default {
 .topic-main {
   flex: 8;
 }
+.topic-main > h1 {
+  font-size: 22px;
+}
 .topic-main > h1,
 .topic-main > ul {
   width: 95%;
