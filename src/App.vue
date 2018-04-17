@@ -38,11 +38,11 @@
       <div class="inner">
         <img src="https://developer.rokid.com/static/img/logo-developer-bottom.5c6d18f.png" />
         <ul>
-          <li><a href="#">文档中心</a></li>
-          <li><a href="#">开发者中心</a></li>
-          <li><a href="#">GitHub</a></li>
-          <li><a href="#">智能家居</a></li>
-          <li><a href="#">若琪官网</a></li>
+          <li><a target="_blank" href="https://developer.rokid.com/docs">文档中心</a></li>
+          <li><a target="_blank" href="https://developer.rokid.com">开发者中心</a></li>
+          <li><a target="_blank" href="https://github.com/Rokid">GitHub</a></li>
+          <li><a target="_blank" href="https://www.rokid.com/smarthome/">智能家居</a></li>
+          <li><a target="_blank" href="https://www.rokid.com">若琪官网</a></li>
         </ul>
       </div>
     </div>
@@ -223,7 +223,7 @@ export default {
 
 #app-main {
   width: 100%;
-  min-height: 95vh;
+  min-height: 75vh;
 }
 
 #app-footer {
