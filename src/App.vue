@@ -115,6 +115,7 @@ export default {
   height: 52px;
   width: 100%;
   border-bottom: 1px solid #d3d3d3;
+  font-size: 14px;
 }
 
 #app-header.layup {
@@ -172,7 +173,7 @@ export default {
 }
 
 #header-search-box > input {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: bold;
   background: #e7edf3;
   border: 2px solid transparent;
