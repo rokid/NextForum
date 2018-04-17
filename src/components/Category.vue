@@ -51,7 +51,9 @@ export default {
         return
 
       let response = await this.$http.get(this.nextUrl)
-      this.topics = this.topics.concat(response.data.topic_list.topics)
+      this.topics = this.topics
+        .concat(response.data.topic_list.topics)
+        .filter(topic => topic.visible)
       this.users = this.users.concat(response.data.users)
       this.nextUrl = response.data.topic_list.more_topics_url
     },

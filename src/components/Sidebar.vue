@@ -8,10 +8,10 @@
       :visible.sync="newDiscussionDialogVisible"
       @open="onNewDiscussionDialogOpen"
       @close="onNewDiscussionDialogClose">
-      <new-discussion />
+      <new-discussion ref="newDiscussionForm" />
       <div slot="footer">
         <el-button @click="newDiscussionDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="postNewDiscussion">发送</el-button>
+        <el-button type="primary" @click="postNewDiscussion" :disabled="postingNew">发送</el-button>
       </div>
     </el-dialog>
 
@@ -77,6 +77,7 @@ export default {
     return {
       subCategories: [],
       newDiscussionDialogVisible: false,
+      postingNew: false,
     }
   },
   computed: {
@@ -119,8 +120,45 @@ export default {
       }
     },
     async postNewDiscussion() {
-      // ready for data
-      this.newDiscussionDialogVisible = false
+      const { data } = this.$refs.newDiscussionForm
+      if (!data.topic) {
+        this.$message({ type: 'error', message: '主题不可为空', })
+        return;
+      }
+      if (!data.category || data.category.length === 0) {
+        this.$message({ type: 'error', message: '必须选择分类', })
+        return;
+      }
+      if (!data.contents) {
+        this.$message({ type: 'error', message: '内容不可为空', })
+        return;
+      }
+
+      this.postingNew = true
+      const response = await this.$http.post('/posts', {
+        raw: data.contents,
+        title: data.topic,
+        unlist_topic: false,
+        category: data.category.slice(-1)[0],
+        is_warning: false,
+        archetype: 'regular',
+        typing_duration_msecs: 3800,
+        tags: data.tags,
+        nested_post: true,
+      })
+      this.postingNew = false
+      if (response.data.success) {
+        this.newDiscussionDialogVisible = false
+        this.$router.push({
+          path: `/topic/${response.data.post.id}`,
+        })
+      } else {
+        this.$message({
+          type: 'error',
+          message: '服务器正忙，请稍后再试',
+        })
+        console.error('post occurs error', response)
+      }
     },
     async checkSubCategories(route = this.$route) {
       this.subCategories = []

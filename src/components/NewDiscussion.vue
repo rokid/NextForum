@@ -2,7 +2,10 @@
   <el-form size="small">
     <el-form-item label="主题" :label-width="labelWidth">
       <el-input class="input-body" placeholder="输入讨论的主题"
-        v-model="data.topic"></el-input>
+        v-model="data.topic"
+        :rules="[
+          { required: true, message: '主题不能为空', }
+        ]"></el-input>
     </el-form-item>
     <el-form-item label="分类" :label-width="labelWidth">
       <el-cascader
