@@ -70,7 +70,7 @@ export default {
       } else if (slug === 'activity') {
         this.nextUrl = `/${this.orderBy}.json?tags=活动`
       } else if (slug === 'faq') {
-        this.nextUrl = `/${this.orderBy}.json?tags=faq`
+        this.nextUrl = `/${this.orderBy}.json?tags=常见问题`
       } else {
         let slugs = [slug, subSlug].filter(item => !!item).join('/')
         this.nextUrl = `/c/${slugs}/l/${this.orderBy}.json?no_subcategories=false`
