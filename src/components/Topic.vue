@@ -4,7 +4,12 @@
       <div class="spinner" v-if="loading">
         <fa-icon icon="spinner" class="fa-spin" size="2x"></fa-icon>
       </div>
-      <h1>{{title}}</h1>
+      <h1 ref="title"
+        :contenteditable="titleEditable"
+        @dblclick="editTitle"
+        @blur="saveTitle">
+        {{title}}
+      </h1>
       <ul>
         <li class="post"
           :id="`post${index}`"
@@ -105,6 +110,7 @@ export default {
       rawTopic: {},
       contents: '',
       replyToPostId: null,
+      titleEditable: false,
     }
   },
   components: {
@@ -123,6 +129,23 @@ export default {
     },
     calendar(date) {
       return moment(date).fromNow()
+    },
+    editTitle() {
+      if (!this.rawTopic.details.can_edit)
+        return;
+      this.titleEditable = true
+    },
+    async saveTitle() {
+      this.titleEditable = false
+      const title = this.$refs.title.innerText
+      if (!title) {
+        this.$message({ type: 'error', message: '标题不能为空' })
+        this.$refs.title.innerText = this.title
+        return
+      }
+      const { data } = await this.$http.put(`/t/topic/${this.rawTopic.id}`, { title })
+      this.title = title
+      this.$message({ type: 'success', message: '标题修改成功' })
     },
     likesCount(item) {
       const byId = action => action.id === 2

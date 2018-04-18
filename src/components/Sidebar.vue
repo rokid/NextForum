@@ -4,7 +4,7 @@
     <el-dialog title="新建讨论" 
       center
       class="new-discussion-dialog"
-      width="40%"
+      width="50%"
       :visible.sync="newDiscussionDialogVisible"
       @open="onNewDiscussionDialogOpen"
       @close="onNewDiscussionDialogClose">
