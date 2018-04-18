@@ -27,11 +27,11 @@
             <span>所有讨论</span>
           </router-link>
         </li>
-        <li class="text-button tags">
-          <a href="/">
+        <li class="text-button tags" :class="isActive('tags') ? 'active' : ''">
+          <router-link to="/tags">
             <fa-icon icon="th-large" class="icon" />
             <span>标签</span>
-          </a>
+          </router-link>
         </li>
         <li class="text-button" :class="isActive('activity') ? 'active' : ''">
           <router-link to="/category/activity">
@@ -96,15 +96,21 @@ export default {
     },
     isActive(item) {
       let id
-      if (item === 'all')
+      if (item === 'all') {
         id = 'all'
-      else if (item === 'activity')
+      } else if (item === 'activity') {
         id = 'activity'
-      else
+      } else if (item === 'tags') {
+        id = 'tags'
+      } else {
         id = this.categoryName(item)
+      }
 
       if (this.$route.name === 'CategoryDetail' &&
         this.$route.params.id === id) {
+        return true
+      } else if (this.$route.name === 'TagList' &&
+        id === 'tags') {
         return true
       } else {
         return false

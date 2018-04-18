@@ -5,6 +5,7 @@ import Home from '@/components/Home'
 import Category from '@/components/Category'
 import Topic from '@/components/Topic'
 import Notification from '@/components/Notification'
+import TagList from '@/components/TagList'
 import Search from '@/components/Search'
 
 Vue.use(Router)
@@ -28,8 +29,12 @@ export default new Router({
     name: 'Notification',
     component: Notification,
   }, {
+    path: '/tags',
+    name: 'TagList',
+    component: TagList,
+  }, {
     path: '/search',
     name: 'Search',
     component: Search,
-  }]
+  }],
 })

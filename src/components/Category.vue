@@ -73,6 +73,8 @@ export default {
         this.nextUrl = `/${this.orderBy}.json?tags=活动`
       } else if (slug === 'faq') {
         this.nextUrl = `/${this.orderBy}.json?tags=常见问题`
+      } else if (slug === 'tag') {
+        this.nextUrl = `/${this.orderBy}.json?tags=${this.$route.query.id}`
       } else {
         let slugs = [slug, subSlug].filter(item => !!item).join('/')
         this.nextUrl = `/c/${slugs}/l/${this.orderBy}.json?no_subcategories=false`
