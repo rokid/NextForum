@@ -1,5 +1,18 @@
 <template>
   <div class="container">
+    <el-dialog width="50%"
+      :title="`修改主题：${title}`"
+      :visible.sync="editPostDialogVisible">
+      <edit-discussion 
+        ref="editDiscussion"
+        :topic="rawTopic"
+        :post="editingPost" />
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="editPostDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="savePost">保 存</el-button>
+      </span>
+    </el-dialog>
+
     <div class="topic-main">
       <div class="spinner" v-if="loading">
         <fa-icon icon="spinner" class="fa-spin" size="2x"></fa-icon>
@@ -39,6 +52,10 @@
                 <span>{{item.reply_count}}</span>
               </a>
               <div class="post-summary-right-controls">
+                <a title="编辑" v-if="item.can_edit" @click="editPost(item)">
+                  <fa-icon icon="pencil-alt"></fa-icon>
+                  <span>编辑</span>
+                </a>
                 <a class="bookmark" title="收藏">
                   <fa-icon :icon="['far', 'bookmark']"></fa-icon>
                   <span>收藏</span>
@@ -97,9 +114,15 @@ import moment from 'moment'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import { mapGetters } from 'vuex'
 import { VueEditor } from 'vue2-editor'
+import EditDiscussion from './EditDiscussion'
 
 export default {
   name: 'Topic',
+  components: {
+    VueEditor,
+    EditDiscussion,
+    'fa-icon': FontAwesomeIcon,
+  },
   data () {
     return {
       title: null,
@@ -111,11 +134,9 @@ export default {
       contents: '',
       replyToPostId: null,
       titleEditable: false,
+      editingPost: null,
+      editPostDialogVisible: false,
     }
-  },
-  components: {
-    VueEditor,
-    'fa-icon': FontAwesomeIcon,
   },
   computed: {
     ...mapGetters([
@@ -143,9 +164,45 @@ export default {
         this.$refs.title.innerText = this.title
         return
       }
+      if (title === this.title) {
+        // just skip it if the title is not changed
+        return;
+      }
       const { data } = await this.$http.put(`/t/topic/${this.rawTopic.id}`, { title })
       this.title = title
       this.$message({ type: 'success', message: '标题修改成功' })
+    },
+    editPost(item) {
+      this.editingPost = item
+      this.editPostDialogVisible = true
+      setTimeout(() => {
+        this.$refs.editDiscussion.setPost(item)
+      }, 100)
+    },
+    async savePost() {
+      const discussion = this.$refs.editDiscussion
+      if (!discussion.data.topic) {
+        this.$message({ type: 'error', message: '标题不能为空' })
+        return
+      }
+      if (!discussion.data.contents) {
+        this.$message({ type: 'error', message: '文章不能为空' })
+        return
+      }
+      if (discussion.isEditTopic) {
+        await this.$http.put(`/t/topic/${this.rawTopic.id}`, {
+          title: discussion.data.topic,
+          tags: discussion.data.tags,
+        })
+      }
+      await this.$http.put(`/posts/${discussion.post.id}`, {
+        post: {
+          raw: discussion.data.contents,
+        },
+      })
+      this.editPostDialogVisible = false
+      this.$message({ type: 'success', message: '修改成功' })
+      this.reload()
     },
     likesCount(item) {
       const byId = action => action.id === 2
@@ -260,15 +317,19 @@ export default {
         }
       }
     },
+    async reload() {
+      this.$scrollTo('body', 300)
+      this.loading = true
+
+      const res = await this.$http.get(`/t/${this.$route.params.id}.json`)
+      this.rawTopic = res.data
+      this.title = res.data.title
+      this.posts = res.data.post_stream.posts
+      this.loading = false
+    },
   },
   async mounted() {
-    this.$scrollTo('body', 300)
-
-    const res = await this.$http.get(`/t/${this.$route.params.id}.json`)
-    this.rawTopic = res.data
-    this.title = res.data.title
-    this.posts = res.data.post_stream.posts
-    this.loading = false
+    await this.reload()
 
     setTimeout(() => {
       if (this.$route.hash) {
@@ -355,7 +416,7 @@ export default {
   color: #e7672e;
 }
 .post-summary-right-controls {
-  width: 120px;
+  width: 160px;
   float: right;
   text-align: right;
 }
