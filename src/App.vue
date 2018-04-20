@@ -15,7 +15,7 @@
               placeholder="搜索帖子、问答" v-model="query" @keyup="search" />
           </div>
           <div id="header-user-box">
-            <router-link id="header-notification" to="/notifications">
+            <router-link v-if="authorized" id="header-notification" to="/notifications">
               <el-badge :is-dot="unreadNotifications.length > 0">
                 <fa-icon icon="bell" />
               </el-badge>
