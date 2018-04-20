@@ -2,28 +2,30 @@
   <div id="app">
     <header id="app-header" :class="scrolled ? 'layup' : ''">
       <div class="inner">
-        <img id="header-logo" src="http://s.rokidcdn.com/forum/logo.png" />
+        <div id="header-logo"></div>
         <ul id="header-index">
           <li><router-link to="/">首页</router-link></li>
           <li><router-link to="/topic/1983">新手指南</router-link></li>
           <li><router-link to="/category/faq">FAQ</router-link></li>
         </ul>
-        <div id="header-controls">
-          <div id="header-search-box">
+        <el-row id="header-controls" type="flex" justify="end">
+          <el-col :span="20" id="header-search-box">
             <fa-icon icon="search" />
             <input ref="searchInput" 
               placeholder="搜索帖子、问答" v-model="query" @keyup="search" />
-          </div>
-          <div id="header-user-box">
-            <router-link v-if="authorized" id="header-notification" to="/notifications">
+          </el-col>
+          <el-col :span="4" id="header-user-box">
+            <router-link v-if="authorized" id="header-notification" class="hidden-xs-only" to="/notifications">
               <el-badge :is-dot="unreadNotifications.length > 0">
                 <fa-icon icon="bell" />
               </el-badge>
             </router-link>
             <a id="header-login-btn" :href="loginUrl" v-if="!authorized">登录</a>
-            <a id="header-login-btn" v-else :href="profileUrl">{{username}}</a>
-          </div>
-        </div>
+            <a id="header-login-btn" v-else :href="profileUrl">
+              <fa-icon icon="user" />
+            </a>
+          </el-col>
+        </el-row>
       </div>
     </header>
     <div id="app-contents">
@@ -146,7 +148,10 @@ export default {
 }
 
 #header-logo {
-  max-height: 35px;
+  background: url(http://s.rokidcdn.com/forum/logo.png);
+  background-size: cover;
+  height: 35px;
+  width: 160px;
   float: left;
 }
 
@@ -157,10 +162,10 @@ export default {
 
 #header-controls {
   float: right;
+  width: 45%;
 }
 
 #header-search-box {
-  float: left;
   display: block;
   overflow: hidden;
   position: relative;
@@ -178,17 +183,15 @@ export default {
   background: #e7edf3;
   border: 2px solid transparent;
   border-radius: 5px;
-  width: 225px;
   height: 36px;
+  width: 100%;
   color: #667d99;
   line-height: 1.5;
   padding-left: 32px;
-  padding-right: 32px;
   transition: all .3s;
 }
 
 #header-search-box input:focus {
-  width: 300px;
   background: #fff;
   border: 2px solid #e7672e;
 }
@@ -205,6 +208,21 @@ export default {
 #header-login-btn {
   float: right;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 1100px) {
+  #app-header .inner {
+    width: 100%;
+  }
+  #header-logo {
+    width: 51px;
+  }
+  #header-index {
+    display: none;
+  }
+  #header-controls {
+    width: 75%;
+  }
 }
 
 #app-contents {
@@ -225,6 +243,12 @@ export default {
 #app-main {
   width: 100%;
   min-height: 75vh;
+}
+
+@media only screen and (max-width: 1100px) {
+  #app-contents .inner {
+    width: 100%;
+  }
 }
 
 #app-footer {
@@ -261,5 +285,11 @@ export default {
 }
 #app-footer a:hover {
   color: #00b0d5;
+}
+
+@media only screen and (max-width: 1100px) {
+  #app-footer .inner {
+    width: 100%;
+  }
 }
 </style>

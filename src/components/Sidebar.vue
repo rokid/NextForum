@@ -1,5 +1,5 @@
 <template>
-  <nav id="sidebar">
+  <nav id="sidebar" class="hidden-xs-only">
     <!-- dialog for newDiscussion -->
     <el-dialog title="新建讨论" 
       center
