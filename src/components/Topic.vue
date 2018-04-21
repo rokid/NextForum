@@ -100,7 +100,7 @@
         </li>
       </ul>
     </div>
-    <div class="topic-controls">
+    <div class="topic-controls hidden-sm-and-down">
       <affix relative-element-selector="#app-main" :offset="{ top: 40, bottom: 30 }" style="width:170px">
         <el-button type="primary" @click="replyWith()">回复</el-button>
         <el-button>邀请参与</el-button>
@@ -353,6 +353,13 @@ export default {
   margin-top: 30px;
   margin-bottom: 30px;
 }
+
+@media only screen and (max-width: 767px) {
+  .container {
+    margin-left: 0;
+  }
+}
+
 .spinner {
   text-align: center;
   padding: 10vh 0;

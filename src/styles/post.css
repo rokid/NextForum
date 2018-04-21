@@ -1,3 +1,7 @@
+.post-body * {
+  word-break: break-all;
+  /*white-space: pre-wrap;*/
+}
 .post-body hr {
   border: 0;
   border-bottom: 1px solid #cacaca;
@@ -53,7 +57,7 @@
   border-radius: 3px;
 }
 .post-body pre {
-  width: 570px;
+  width: 100%;
   margin: 10px 0;
   padding: 16px;
   overflow: auto;
@@ -61,7 +65,8 @@
   line-height: 1.45;
   background: #f6f8fa;
   border-radius: 3px;
-  word-break: normal;
+  word-break: break-all;
+  white-space: pre-wrap;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 .post-body pre > code {
