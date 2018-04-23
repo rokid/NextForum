@@ -16,7 +16,7 @@
     </el-dialog>
 
     <!-- the main sidebar items -->
-    <affix relative-element-selector="#app-main" :offset="{ top: 40, bottom: 30 }" style="width:190px">
+    <affix relative-element-selector="#app-main" :offset="{ top: 50, bottom: 30 }" style="width:190px">
       <ul>
         <li class="new-discussion">
           <el-button @click="newDiscussionDialogVisible = true">新建讨论</el-button>
