@@ -23,13 +23,13 @@
         @blur="saveTitle">
         {{title}}
       </h1>
-      <ul>
+      <ul v-infinite-scroll="onLoadMore" infinite-scroll-distance="10">
         <li class="post"
           :id="`post${index}`"
           v-view="postViewHandler.bind(null, index)"
           v-for="(item, index) in posts">
           <div class="avatar">
-            <img :src="avatar(item.avatar_template)"
+            <img :src="avatar(item.avatar_template, item)"
               :height="avatarSize" 
               :width="avatarSize" />
           </div>
@@ -37,7 +37,7 @@
             <div class="post-header">
               <span class="username">{{item.display_username}}</span>
               <span class="datetime">{{calendar(item.created_at)}}</span>
-              <span class="floor">#{{index}}</span>
+              <span class="floor">#{{index + 1}}</span>
             </div>
             <div class="post-body" v-html="item.cooked"></div>
             <div class="post-summary">
@@ -73,7 +73,7 @@
                   </span>
                   <template>
                     <el-input size="small" autofocus
-                      :value="`https://forum.rokid.com/topic/${item.id}?u=${username}#${index}`" />
+                      :value="`https://forum.rokid.com/topic/${item.id}?u=${username}#${index + 1}`" />
                     <el-button type="primary" size="small" class="share-popover-copybtn">复制链接</el-button>
                   </template>
                 </el-popover>
@@ -81,24 +81,25 @@
             </div>
           </div>
         </li>
-        <li>
-          <div id="reply" class="reply-box">
-            <div class="reply-header">
-              <fa-icon icon="reply"></fa-icon>
-              <span>{{title}}</span>
-            </div>
-            <vue-editor v-model="contents"
-              ref="replyEditor"
-              :editorToolbar.sync="editorToolbar"></vue-editor>
-            <div class="reply-footer">
-              <el-button type="primary" size="small" @click="sendReply()">
-                <fa-icon icon="reply" /> 发送
-              </el-button>
-              <el-button size="small">取消</el-button>
-            </div>
-          </div>
-        </li>
       </ul>
+      <div class="spinner" v-if="loadingMore">
+        <fa-icon icon="spinner" class="fa-spin" size="2x"></fa-icon>
+      </div>
+      <div id="reply" class="reply-box">
+        <div class="reply-header">
+          <fa-icon icon="reply"></fa-icon>
+          <span>{{title}}</span>
+        </div>
+        <vue-editor v-model="contents"
+          ref="replyEditor"
+          :editorToolbar.sync="editorToolbar"></vue-editor>
+        <div class="reply-footer">
+          <el-button type="primary" size="small" @click="sendReply()">
+            <fa-icon icon="reply" /> 发送
+          </el-button>
+          <el-button size="small">取消</el-button>
+        </div>
+      </div>
     </div>
     <div class="topic-controls hidden-sm-and-down">
       <affix relative-element-selector="#app-main" :offset="{ top: 40, bottom: 30 }" style="width:170px">
@@ -129,6 +130,7 @@ export default {
       posts: [],
       avatarSize: 48,
       loading: true,
+      loadingMore: false,
       rendered: false,
       rawTopic: {},
       contents: '',
@@ -145,7 +147,7 @@ export default {
     ]),
   },
   methods: {
-    avatar(template_url) {
+    avatar(template_url, item) {
       return `https://developer-forum.rokid.com/${template_url.replace('{size}', this.avatarSize)}`
     },
     calendar(date) {
@@ -326,6 +328,27 @@ export default {
       this.title = res.data.title
       this.posts = res.data.post_stream.posts
       this.loading = false
+    },
+    async onLoadMore() {
+      if (this.loadingMore || this.loading)
+        return;
+
+      if (this.rawTopic.posts_count === this.posts.length)
+        return;
+
+      this.loadingMore = true
+      const lastId = this.posts.length + 6
+      const res = await this.$http.get(`/t/${this.$route.params.id}/${lastId}.json`)
+      const next = res.data.post_stream.posts
+
+      if (next && next.length) {
+        for (let i = 0; i < next.length; i++) {
+          const j = next[i].post_number - 1
+          this.posts[j] = next[i]
+        }
+        this.$forceUpdate();
+      }
+      this.loadingMore = false
     },
   },
   async mounted() {
