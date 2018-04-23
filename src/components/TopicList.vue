@@ -78,6 +78,7 @@ export default {
     async onLoadMore() {
       if (!this.loadable)
         return;
+      this.loadable = false
       this.state = 'next'
       await this.$props.fetch()
       this.state = 'finished'
