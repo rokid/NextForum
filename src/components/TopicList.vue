@@ -82,6 +82,7 @@ export default {
       this.state = 'next'
       await this.$props.fetch()
       this.state = 'finished'
+      this.loadable = true
     },
     async reload() {
       this.state = 'init'
