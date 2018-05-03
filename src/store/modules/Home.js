@@ -49,9 +49,9 @@ const actions = {
         .then(select).then(render('updateExcellentTopics')),
       Vue.http.get('/top/all.json?tags=官方教程')
         .then(select).then(render('updateTutorialTopics')),
-      Vue.http.get('/latest.json?tag=常见问题')
+      Vue.http.get('/latest.json?tags=常见问题')
         .then(select).then(render('updateIssueTopics')),
-      Vue.http.get('/latest.json?tag=活动')
+      Vue.http.get('/latest.json?tags=活动')
         .then(select).then(render('updateEventTopics')),
     ])
   },
