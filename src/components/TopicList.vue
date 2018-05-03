@@ -11,7 +11,7 @@
         <div class="topic-body">
           <h3>
             <fa-icon icon="thumbtack" v-if="item.pinned"></fa-icon>
-            {{item.fancy_title}}
+            <span v-html="item.fancy_title"></span>
           </h3>
           <p>
             <fa-icon icon="reply"></fa-icon>
