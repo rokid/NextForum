@@ -10,7 +10,7 @@
           <span>优质原创</span>
         </h3>
         <ul>
-          <li v-for="item in excellentTopics.slice(0, 5)">
+          <li v-for="item in excellentTopics.slice(0, max)">
             <router-link :to="`/topic/${item.id}`" :title="item.title">{{item.title}}</router-link>
           </li>
         </ul>
@@ -21,7 +21,7 @@
           <span>官方教程</span>
         </h3>
         <ul>
-          <li v-for="item in tutorialTopics.slice(0, 5)">
+          <li v-for="item in tutorialTopics.slice(0, max)">
             <router-link :to="`/topic/${item.id}`" :title="item.title">{{item.title}}</router-link>
           </li>
         </ul>
@@ -34,7 +34,7 @@
           <span>热点事件</span>
         </h3>
         <ul>
-          <li v-for="item in eventTopics.slice(0, 5)">
+          <li v-for="item in eventTopics.slice(0, max)">
             <router-link :to="`/topic/${item.id}`" :title="item.title">{{item.title}}</router-link>
           </li>
         </ul>
@@ -45,7 +45,7 @@
           <span>常见问题</span>
         </h3>
         <ul>
-          <li v-for="item in issueTopics.slice(0, 5)">
+          <li v-for="item in issueTopics.slice(0, max)">
             <router-link :to="`/topic/${item.id}`" :title="item.title">{{item.title}}</router-link>
           </li>
         </ul>
@@ -66,6 +66,11 @@ export default {
       'issueTopics',
       'eventTopics',
     ]),
+  },
+  data() {
+    return {
+      max: 7,
+    };
   },
   components: {
     'fa-icon': FontAwesomeIcon,

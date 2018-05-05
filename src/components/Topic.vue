@@ -27,7 +27,7 @@
         <li class="post"
           :id="`post${index}`"
           v-view="postViewHandler.bind(null, index)"
-          v-for="(item, index) in posts">
+          v-for="(item, index) in cookedPosts">
           <div class="avatar">
             <img :src="avatar(item.avatar_template, item)"
               :height="avatarSize" 
@@ -42,10 +42,10 @@
             <div class="post-body" v-html="item.cooked"></div>
             <div class="post-summary">
               <a class="likes"
-                :class="isLiked(item) ? 'liked' : ''"
+                :class="item.isLiked ? 'liked' : ''"
                 @click="toggleLike(item)">
                 <fa-icon :icon="['far', 'thumbs-up']"></fa-icon>
-                <span>{{likesCount(item)}}</span>
+                <span>{{item.likes}}</span>
               </a>
               <a class="replies" title="回复" @click="replyWith(item)">
                 <fa-icon icon="reply"></fa-icon>
@@ -56,7 +56,9 @@
                   <fa-icon icon="pencil-alt"></fa-icon>
                   <span>编辑</span>
                 </a>
-                <a class="bookmark" title="收藏">
+                <a title="收藏" class="bookmark"
+                  :class="item.bookmarked ? 'bookmarked' : ''"
+                  @click="toggleBookmark(item)">
                   <fa-icon :icon="['far', 'bookmark']"></fa-icon>
                   <span>收藏</span>
                 </a>
@@ -141,6 +143,21 @@ export default {
     }
   },
   computed: {
+    cookedPosts() {
+      return this.posts.map((post) => {
+        post.likes = 0
+        post.isLiked = false
+        post.actions_summary.forEach((action) => {
+          if (action.id === 2) {
+            post.likes += action.count || 0
+            if (!post.isLiked && action.acted) {
+              post.isLiked = true
+            }
+          }
+        })
+        return post;
+      });
+    },
     ...mapGetters([
       'username',
       'editorToolbar',
@@ -206,41 +223,20 @@ export default {
       this.$message({ type: 'success', message: '修改成功' })
       this.reload()
     },
-    likesCount(item) {
-      const byId = action => action.id === 2
-      const action = item.actions_summary.find(byId)
-      if (action && action.count !== undefined) {
-        return action.count
-      } else {
-        return 0
-      }
-    },
-    isLiked(item) {
-      const { actions_summary } = item
-      const action = actions_summary.find(action => action.id === 2)
-      if (action && action.acted)
-        return true
-      else
-        return false
-    },
-    async toggleLike(item) {
-      const { id, actions_summary } = item
-      const action = actions_summary.find(action => action.id === 2)
-      let res
-      if (action && action.acted) {
-        res = await this.$http.request({
-          method: 'DELETE',
-          url: `/post_actions/${id}`,
-          data: {
-            post_action_type_id: 2,
-          },
+    async toggleLike(post) {
+      if (post.isLiked) {
+        this.$message({
+          message: '你已经赞过了',
         })
       } else {
-        res = await this.$http.request({
+        post.isLiked = true
+        post.likes += 1
+        this.$forceUpdate()
+        const res = await this.$http.request({
           method: 'post',
           url: '/post_actions',
           data: {
-            id,
+            id: post.id,
             post_action_type_id: 2, // for like, is 2
           }
         })
@@ -350,6 +346,21 @@ export default {
       }
       this.loadingMore = false
     },
+    async toggleBookmark(post) {
+      const val = !post.bookmarked
+      post.bookmarked = val
+      this.$forceUpdate()
+
+      const data = new FormData()
+      data.set('bookmarked', post.bookmarked)
+      await this.$http.put(`/posts/${post.id}/bookmark`, data, {
+        config: {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      })
+    },
   },
   async mounted() {
     await this.reload()
@@ -442,7 +453,9 @@ export default {
   color: #2c3e50;
   cursor: pointer;
 }
-.post-summary a:hover, .post-summary a.liked {
+.post-summary a:hover,
+.post-summary a.liked,
+.post-summary a.bookmarked {
   color: #e7672e;
 }
 .post-summary-right-controls {
