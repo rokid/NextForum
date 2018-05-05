@@ -99,13 +99,14 @@ export default {
   margin: 30px 0;
 }
 
+.rokid-excellent li,
 .rokid-latest li,
 .rokid-issues li,
 .rokid-tutorial li,
 .rokid-hot li {
-  /*text-overflow: ellipsis;*/
-  /*white-space: nowrap;*/
-  /*overflow: hidden;*/
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .rokid-col h3 {
