@@ -4,11 +4,11 @@
       <fa-icon icon="spinner" class="fa-spin" size="2x"></fa-icon>
     </div>
     <ul v-infinite-scroll="onLoadMore" infinite-scroll-distance="10">
-      <li class="topic" @click="onClickItem(item)" v-for="item in topics">
+      <li class="topic" v-for="item in topics">
         <div class="topic-avatar">
           <img :src="avatar(item.posters[0].user_id)" />
         </div>
-        <div class="topic-body">
+        <div class="topic-body" @click="onClickItem(item)">
           <h3>
             <fa-icon icon="thumbtack" v-if="item.pinned"></fa-icon>
             <span v-html="item.fancy_title"></span>
@@ -20,9 +20,9 @@
           </p>
         </div>
         <div class="topic-controls">
-          <span class="topic-tag" v-for="tag in item.tags">
-            {{tag}}
-          </span>
+          <router-link v-for="tag in item.tags"
+            class="topic-tag" 
+            :to="`/category/tag?id=${tag}`">{{tag}}</router-link>
           <ul class="topic-summary">
             <li :style="item.posts_count > 1 ? '' : 'visibility:hidden'">
               <fa-icon :icon="['far', 'comment']"></fa-icon>
@@ -136,12 +136,18 @@ export default {
   text-align: right;
 }
 .topic-tag {
-  font-size: 10px;
+  color: #333;
+  font-size: 13px;
   display: inline-block;
   padding: 3px 5px;
   margin: 0 3px;
   border-radius: 3px;
   background: #eee;
+  transition: all .3s;
+}
+.topic-tag:hover {
+  background: #e7672e;
+  color: #fff;
 }
 .topic-summary {
   display: inline-block;
