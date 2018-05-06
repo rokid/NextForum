@@ -103,12 +103,12 @@
         </div>
       </div>
     </div>
-    <div class="topic-controls hidden-sm-and-down">
+    <!-- <div class="topic-controls hidden-sm-and-down">
       <affix relative-element-selector="#app-main" :offset="{ top: 40, bottom: 30 }" style="width:170px">
         <el-button type="primary" @click="replyWith()">回复</el-button>
         <el-button>邀请参与</el-button>
       </affix>
-    </div>
+    </div> -->
   </div>
 </template>
 
