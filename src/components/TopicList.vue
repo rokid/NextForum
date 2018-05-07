@@ -24,7 +24,7 @@
             class="topic-tag" 
             :to="`/category/tag?id=${tag}`">{{tag}}</router-link>
           <ul class="topic-summary">
-            <li :style="item.posts_count > 1 ? '' : 'visibility:hidden'">
+            <li>
               <fa-icon :icon="['far', 'comment']"></fa-icon>
               <span>{{number(item.posts_count - 1)}}</span>
             </li>
