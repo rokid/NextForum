@@ -25,6 +25,21 @@
             给你发送了消息
             <a>{{item.fancy_title}}</a>
           </p>
+          <p v-if="item.notification_type === 9">
+            <b>{{item.data.display_username}}</b>
+            评论了
+            <router-link :to="`/topic/${item.topic_id}`">{{item.fancy_title}}</router-link>
+          </p>
+          <p v-if="item.notification_type === 12">
+            <b>{{item.data.username}}</b>设置了{{item.data.badge_name}}
+          </p>
+          <!-- for custom resolve plugin -->
+          <p v-if="item.notification_type === 14 && item.data.message === 'solved.accepted_notification'">
+            <b>{{item.data.display_username}}</b>
+            接受了你在
+            <router-link :to="`/topic/${item.topic_id}`">{{item.fancy_title}}</router-link>
+            中的回复
+          </p>
         </div>
         <div class="item-right">
           <span>{{formatDate(item.created_at)}}</span>
@@ -55,6 +70,12 @@ export default {
         return ['far', 'heart']
       } else if (type === 6) {
         return ['far', 'envelope']
+      } else if (type === 9) {
+        return ['far', 'comment']
+      } else if (type === 12) {
+        return ['far', 'heart']
+      } else if (type === 14) {
+        return ['far', 'check-circle']
       }
     },
     formatDate(d) {
