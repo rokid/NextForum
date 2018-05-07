@@ -30,29 +30,28 @@
         </el-select>
       </el-form-item>
       <el-form-item :label-width="labelWidth">
-        <vue-editor v-model="data.contents" 
-          :editorToolbar.sync="editorToolbar"></vue-editor>
+        <editor ref="editor" :initialValue="data.contents" :onPickEmoji="pickEmoji" />
       </el-form-item>
     </div>
-    <div v-else>
-      <vue-editor v-model="data.contents" 
-        :editorToolbar.sync="editorToolbar"></vue-editor>
+    <div v-if="!isEditTopic">
+      <editor ref="editor" :initialValue="data.contents" :onPickEmoji="pickEmoji" />
     </div>
   </el-form>
 </template>
 
 <script>
-import { VueEditor } from 'vue2-editor'
 import { mapGetters, mapActions } from 'vuex'
+import MyEditor from './MyEditor'
+
 export default {
   name: 'EditDiscussion',
-  components: {
-    VueEditor,
-  },
   props: [
     'post',
     'topic',
   ],
+  components: {
+    editor: MyEditor,
+  },
   data () {
     return {
       labelWidth: '140px',
@@ -62,14 +61,13 @@ export default {
         topic: null,
         category: null,
         tags: [],
-        contents: null,
+        contents: '',
       },
       isEditTopic: false,
     }
   },
   computed: {
     ...mapGetters([
-      'editorToolbar',
       'allTags',
       'allCategories',
     ]),
@@ -78,6 +76,9 @@ export default {
     },
     tagsOption() {
       return this.allTags.map(tag => tag.id)
+    },
+    contents() {
+      return this.$refs.editor.value
     },
   },
   methods: {
@@ -113,6 +114,10 @@ export default {
       this.isEditTopic = item.post_number === 1
       const { data } = await this.$http.get(`/posts/${item.id}`);
       this.data.contents = data.raw
+    },
+    pickEmoji(item) {
+      console.log('pick pickEmoji', item)
+      this.data.contents += item.native
     },
   },
   async mounted() {

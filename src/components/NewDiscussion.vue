@@ -29,21 +29,21 @@
       </el-select>
     </el-form-item>
     <el-form-item :label-width="labelWidth">
-      <vue-editor v-model="data.contents" 
-        :editorToolbar.sync="editorToolbar"></vue-editor>
+      <editor :initialValue="data.contents" :onPickEmoji="pickEmoji" />
     </el-form-item>
   </el-form>
 </template>
 
 <script>
-import { VueEditor } from 'vue2-editor'
 import { mapGetters, mapActions } from 'vuex'
+import MyEditor from './MyEditor'
+
 export default {
   name: 'NewDiscussion',
   components: {
-    VueEditor,
+    editor: MyEditor,
   },
-  data () {
+  data() {
     return {
       labelWidth: '140px',
       categories: [],
@@ -52,13 +52,12 @@ export default {
         topic: null,
         category: null,
         tags: [],
-        contents: null,
+        contents: '',
       },
     }
   },
   computed: {
     ...mapGetters([
-      'editorToolbar',
       'allTags',
       'allCategories',
     ]),
@@ -97,6 +96,9 @@ export default {
         category.children = this.createCategoriesOption(
           await this.getCategories(parentId), false)
       }
+    },
+    pickEmoji(item) {
+      this.data.contents += item.native
     },
   },
   async mounted() {

@@ -92,9 +92,10 @@
           <fa-icon icon="reply"></fa-icon>
           <span>{{title}}</span>
         </div>
-        <vue-editor v-model="contents"
+        <editor
           ref="replyEditor"
-          :editorToolbar.sync="editorToolbar"></vue-editor>
+          :initialValue="contents"
+          :onPickEmoji="pickEmoji" />
         <div class="reply-footer">
           <el-button type="primary" size="small" @click="sendReply()">
             <fa-icon icon="reply" /> 发送
@@ -116,14 +117,14 @@
 import moment from 'moment'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import { mapGetters } from 'vuex'
-import { VueEditor } from 'vue2-editor'
 import EditDiscussion from './EditDiscussion'
+import MyEditor from './MyEditor'
 
 export default {
   name: 'Topic',
   components: {
-    VueEditor,
     EditDiscussion,
+    editor: MyEditor,
     'fa-icon': FontAwesomeIcon,
   },
   data () {
@@ -160,7 +161,6 @@ export default {
     },
     ...mapGetters([
       'username',
-      'editorToolbar',
     ]),
   },
   methods: {
@@ -204,7 +204,7 @@ export default {
         this.$message({ type: 'error', message: '标题不能为空' })
         return
       }
-      if (!discussion.data.contents) {
+      if (!discussion.contents) {
         this.$message({ type: 'error', message: '文章不能为空' })
         return
       }
@@ -216,7 +216,7 @@ export default {
       }
       await this.$http.put(`/posts/${discussion.post.id}`, {
         post: {
-          raw: discussion.data.contents,
+          raw: discussion.contents,
         },
       })
       this.editPostDialogVisible = false
@@ -249,33 +249,12 @@ export default {
       }
 
       this.$scrollTo('#reply', 800)
-      setTimeout(() => {
-        this.focusToEnd()
-      }, 800)
-    },
-    focusToEnd() {
-      const editor = this.$refs.replyEditor.editor
-      editor.focus()
-      if (typeof window.getSelection !== 'undefined'
-        && typeof document.createRange !== 'undefined') {
-        const range = document.createRange()
-        range.selectNodeContents(editor)
-        range.collapse(false)
-        const selection = window.getSelection()
-        selection.removeAllRanges()
-        selection.addRange(range)
-      } else if (typeof document.body.createTextRange !== 'undefined') {
-        const range = document.body.createTextRange()
-        range.moveToElementText(editor)
-        range.collapse(false)
-        range.select()
-      } else {
-        // TODO, just skip
-      }
+      this.$refs.replyEditor.focus()
     },
     async sendReply() {
+      const eidtor = this.$refs.replyEditor
       const data = {
-        raw: this.contents,
+        raw: eidtor.value,
         unlist_topic: false,
         category: this.rawTopic.category_id,
         topic_id: this.rawTopic.id,
@@ -336,6 +315,7 @@ export default {
       const lastId = this.posts.length + 6
       const res = await this.$http.get(`/t/${this.$route.params.id}/${lastId}.json`)
       const next = res.data.post_stream.posts
+      console.log(next.length)
 
       if (next && next.length) {
         for (let i = 0; i < next.length; i++) {
@@ -360,6 +340,9 @@ export default {
           },
         },
       })
+    },
+    pickEmoji(item) {
+      this.contents += item.native
     },
   },
   async mounted() {
@@ -406,7 +389,7 @@ export default {
 }
 .topic-main > h1,
 .topic-main > ul {
-  width: 95%;
+  width: 100%;
 }
 .topic-controls {
   flex: 2;

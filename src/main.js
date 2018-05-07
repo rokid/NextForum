@@ -6,6 +6,7 @@ import VueAffix from 'vue-affix'
 import VueScrollTo from 'vue-scrollto'
 import VueInfiniteScroll from 'vue-infinite-scroll'
 import VueCheckView from 'vue-check-view'
+import MavonEditor from 'mavon-editor'
 import ElementUI from 'element-ui'
 import popover from 'element-ui/packages/popover/src/directive'
 
@@ -17,6 +18,7 @@ import faSolid from '@fortawesome/fontawesome-free-solid'
 
 import 'element-ui/lib/theme-chalk/index.css'
 import 'element-ui/lib/theme-chalk/display.css'
+import 'mavon-editor/dist/css/index.css'
 import '@/styles/normalize.css'
 import '@/styles/post.css'
 import '@/styles/editor.css'
@@ -67,6 +69,7 @@ Vue.use(VueAffix)
 Vue.use(VueScrollTo)
 Vue.use(VueInfiniteScroll)
 Vue.use(VueCheckView)
+Vue.use(MavonEditor)
 Vue.use(ElementUI)
 Vue.directive('popover', popover)
 

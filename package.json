@@ -16,7 +16,9 @@
     "@fortawesome/vue-fontawesome": "^0.0.22",
     "axios": "^0.18.0",
     "element-ui": "^2.3.3",
+    "emoji-mart-vue": "^2.5.3",
     "express": "^4.16.3",
+    "mavon-editor": "^2.5.9",
     "moment": "^2.22.0",
     "vue": "^2.5.2",
     "vue-affix": "^0.2.4",
@@ -26,7 +28,6 @@
     "vue-router": "^3.0.1",
     "vue-scrollactive": "^0.6.1",
     "vue-scrollto": "^2.11.0",
-    "vue2-editor": "^2.4.2",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
