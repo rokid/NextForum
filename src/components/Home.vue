@@ -152,6 +152,9 @@ export default {
 }
 
 @media only screen and (max-width: 768px) {
+  .container {
+    padding: 30px 0 20px 0;
+  }
   .rokid-row {
     margin: 0;
   }

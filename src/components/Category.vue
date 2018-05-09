@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="controls">
-      <el-select v-model="orderBy" size="small" @change="reload()">
+      <el-select class="full-width" v-model="orderBy" size="small" @change="reload()">
         <el-option key="latest"
           :label="orderType.latest" value="latest"></el-option>
         <el-option key="top"
@@ -109,5 +109,13 @@ export default {
 }
 .controls {
   margin-bottom: 20px;
+}
+@media only screen and (max-width: 767px) {
+  .container {
+    padding: 30px 0;
+  }
+  .full-width {
+    width: 100%;
+  }
 }
 </style>

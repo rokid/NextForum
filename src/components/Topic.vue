@@ -39,7 +39,7 @@
               <span class="datetime">{{calendar(item.created_at)}}</span>
               <span class="floor">#{{index + 1}}</span>
             </div>
-            <div class="post-body" v-html="item.cooked"></div>
+            <div class="post-body" :id="`pangu-render${index}`" v-html="item.cooked"></div>
             <div class="post-summary">
               <a class="likes"
                 :class="item.isLiked ? 'liked' : ''"
@@ -119,6 +119,7 @@ import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import { mapGetters } from 'vuex'
 import EditDiscussion from './EditDiscussion'
 import MyEditor from './MyEditor'
+import pangu from 'pangu'
 
 export default {
   name: 'Topic',
@@ -164,6 +165,9 @@ export default {
     ]),
   },
   methods: {
+    spacing(text) {
+      return pangu.spacing(text)
+    },
     avatar(template_url, item) {
       return `https://developer-forum.rokid.com/${template_url.replace('{size}', this.avatarSize)}`
     },
@@ -357,6 +361,7 @@ export default {
       } else {
         this.rendered = true
       }
+      pangu.spacingElementById('pangu-render0')
     }, 300)
   },
 }
@@ -369,12 +374,6 @@ export default {
   margin-left: 30px;
   margin-top: 30px;
   margin-bottom: 30px;
-}
-
-@media only screen and (max-width: 767px) {
-  .container {
-    margin-left: 0;
-  }
 }
 
 .spinner {
@@ -473,5 +472,18 @@ export default {
 }
 .reply-footer {
   margin-top: 10px;
+}
+
+@media only screen and (max-width: 767px) {
+  .container {
+    margin-left: 0;
+  }
+  #post0 .contents {
+    margin-left: -85px;
+  }
+  #post0 .contents .post-header {
+    line-height: 48px;
+    padding-left: 85px;
+  }
 }
 </style>

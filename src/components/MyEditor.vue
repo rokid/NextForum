@@ -15,12 +15,13 @@
       <div>
         <p v-if="rendering">正在加载 Emoji 表情...</p>
         <emoji-picker
-          v-if="!rendering"
+          v-if="true"
           @select="pickEmoji"
-          set="apple"
+          :set="emojiConf.set"
           :perLine="13"
-          :sheetSize="16"
-          :native="true"
+          :sheetSize="emojiConf.sheetSize"
+          :emojiSize="emojiConf.emojiSize"
+          :native="false"
           :showPreview="false"
           :showSearch="false"
           :showSkinTones="false"
@@ -31,6 +32,20 @@
         <fa-icon icon="smile"></fa-icon>
       </button>
     </el-popover>
+    <el-upload
+      class="upload-attach"
+      name="file"
+      :data="uploadPara"
+      :show-file-list="false"
+      :http-request="handleUploadFile"
+      :on-success="onUploadFile"
+      action="/uploads.json"
+      multiple>
+      <button slot="trigger" style="display: none" ref="upload"></button>
+      <button v-on:click="triggerupload" ref="uploadFile" type="primary" class="op-icon proxy-upload-trigger" title="添加附件">
+        <fa-icon icon="cloud-upload-alt"></fa-icon>
+      </button>
+    </el-upload>
   </div>
 </template>
 
@@ -66,6 +81,14 @@ export default {
           flags: '旗帜',
         }
       },
+      emojiConf: {
+        set: 'apple',
+        sheetSize: 32,
+        emojiSize: 24
+      },
+      uploadPara: {
+        type: 'composer'
+      }
     }
   },
   computed: {
@@ -90,28 +113,71 @@ export default {
     renderEmoji() {
       setTimeout(() => {
         this.rendering = false
-      }, 1000)
+      }, 0)
     },
-    addImage(filename, image) {
+    async addImage(pos, image) {
       var data = new FormData()
       data.append('type', 'composer')
-      data.append('files', image)
+      data.append('file', image)
 
-      // const res = await this.$http.request({
-      //   url: '/uploads.json',
-      //   method: 'post',
-      //   data,
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data',
-      //   },
-      // })
-      this.$refs.editor.$img2Url(filename, image.name)
+      var res = await this.$http.request({
+        url: '/uploads.json',
+        method: 'post',
+        data,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      this.$refs.editor.$img2Url(pos, res.data && res.data.url)
     },
+    handleUploadFile(context) {
+      var data = new FormData()
+      data.append('type', 'composer')
+      data.append('file', context.file)
+
+      this.$http.request({
+        url: '/uploads.json',
+        method: 'post',
+        data,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      }).then((res) => {
+        context.onSuccess(res)
+      }).catch((error) => {
+        context.onError(error)
+      })
+    },
+    onUploadFile(res, file, fileList) {
+      console.log(res)
+      let editor = this.$refs.editor;
+      editor.insertText(editor.getTextareaDom(), {
+        prefix: '[' + res.data.original_filename + '](' + res.data.url + ')',
+        subfix: '',
+        str: ''
+      })
+    },
+    triggerupload(){
+      this.uploadElem.click()
+    }
   },
   mounted() {
     const editor = this.$refs.editor
     const emoji = this.$refs.emoji
+    // proxy for trigger uoload action
+    const uploadProxy = this.$refs.uploadFile
+    // the true upload button
+    this.uploadElem = this.$refs.upload
     editor.$refs.toolbar_left.$el.append(emoji)
+    editor.$refs.toolbar_left.$el.append(uploadProxy)
+    // preload emoji.png
+    let img = new Image()
+    img.onload = () => {
+
+    }
+    img.src = 'https://unpkg.com/emoji-datasource-' +
+      this.emojiConf.set + '@4.0.2/img/apple/sheets/' +
+      this.emojiConf.sheetSize + '.png'
   },
 }
 </script>

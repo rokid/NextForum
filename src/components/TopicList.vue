@@ -106,6 +106,11 @@ export default {
   border-radius: 4px;
   transition: all .3s;
 }
+@media only screen and (max-width: 767px) {
+  .topic {
+    display: block;
+  }
+}
 .topic:hover {
   background: rgb(231, 237, 243);
 }
@@ -135,6 +140,12 @@ export default {
   flex: 6;
   text-align: right;
 }
+@media only screen and (max-width: 767px) {
+  .topic-controls {
+    margin-top: 8px;
+  }
+}
+
 .topic-tag {
   color: #333;
   font-size: 13px;

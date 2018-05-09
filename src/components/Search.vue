@@ -9,7 +9,7 @@
           <img :src="avatar(item)" />
         </div>
         <div class="item-main">
-          <h3>{{title(item.topic_id)}}</h3>
+          <h3 v-html="title(item.topic_id)"></h3>
           <p>{{item.blurb}}</p>
         </div>
       </li>
@@ -110,5 +110,16 @@ export default {
 }
 .item-main p {
   color: #787878;
+}
+@media only screen and (max-width: 767px) {
+  .container {
+    padding: 30px 0;
+  }
+  .item-main {
+    padding-left: 5px;
+  }
+  .item-main p {
+    word-break: break-word;
+  }
 }
 </style>

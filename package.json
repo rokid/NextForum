@@ -20,6 +20,7 @@
     "express": "^4.16.3",
     "mavon-editor": "^2.5.9",
     "moment": "^2.22.0",
+    "pangu": "^3.3.0",
     "vue": "^2.5.2",
     "vue-affix": "^0.2.4",
     "vue-check-view": "^0.2.3",
