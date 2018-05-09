@@ -9,6 +9,7 @@ const baseWebpackConfig = require('./webpack.base.conf')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+const OpenBrowserPlugin = require('open-browser-webpack-plugin')
 const portfinder = require('portfinder')
 
 const HOST = process.env.HOST || process.env.HOSTNAME
@@ -67,7 +68,10 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         to: config.dev.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
+    ]),
+    new OpenBrowserPlugin({
+      url: 'http://forum-dev.rokid.com'
+    })
   ]
 })
 

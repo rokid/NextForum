@@ -32,17 +32,17 @@
         <fa-icon icon="smile"></fa-icon>
       </button>
     </el-popover>
-    <el-upload
+    <el-upload v-on:submit.prevent
       class="upload-attach"
-      name="file"
+      name="filessss"
       :data="uploadPara"
       :show-file-list="false"
       :http-request="handleUploadFile"
-      :on-success="onUploadFile"
-      action="/uploads.json"
-      multiple>
-      <button slot="trigger" style="display: none" ref="upload"></button>
-      <button v-on:click="triggerupload" ref="uploadFile" type="primary" class="op-icon proxy-upload-trigger" title="添加附件">
+      :on-success="onUploadFileSuccess"
+      :on-error="onUploadFileError"
+      action="/uploads.json">
+      <span slot="trigger" style="display: none" ref="upload"></span>
+      <button @click="triggerupload" ref="uploadFile" type="button" class="op-icon proxy-upload-trigger" title="添加附件">
         <fa-icon icon="cloud-upload-alt"></fa-icon>
       </button>
     </el-upload>
@@ -148,7 +148,7 @@ export default {
         context.onError(error)
       })
     },
-    onUploadFile(res, file, fileList) {
+    onUploadFileSuccess(res, file, fileList) {
       console.log(res)
       let editor = this.$refs.editor;
       editor.insertText(editor.getTextareaDom(), {
@@ -157,7 +157,10 @@ export default {
         str: ''
       })
     },
-    triggerupload(){
+    onUploadFileError(error) {
+      this.$alert(error.response.data.errors.join(''), '上传错误')
+    },
+    triggerupload(event){
       this.uploadElem.click()
     }
   },

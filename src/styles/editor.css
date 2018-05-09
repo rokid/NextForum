@@ -1,3 +1,6 @@
 .v-note-wrapper {
   min-height: 220px !important;
 }
+.upload-attach {
+  display: none;
+}
