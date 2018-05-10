@@ -108,6 +108,13 @@ export default {
 }
 </script>
 <style>
+/**
+  overwrite for elementUI
+*/
+.el-dialog__header {
+  border-bottom: 1px solid #ccc;
+}
+
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
