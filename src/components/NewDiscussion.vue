@@ -1,5 +1,5 @@
 <template>
-  <el-form size="small">
+  <el-form size="small" :label-position="labelPosition">
     <el-form-item label="主题" :label-width="labelWidth">
       <el-input class="input-body" placeholder="输入讨论的主题"
         v-model="data.topic"
@@ -28,7 +28,7 @@
         </el-option>
       </el-select>
     </el-form-item>
-    <el-form-item :label-width="labelWidth">
+    <el-form-item :label-width="inputMargin === 'null' ? labelWidth:inputMargin">
       <editor :initialValue="data.contents" :onPickEmoji="pickEmoji" />
     </el-form-item>
   </el-form>
@@ -39,13 +39,26 @@ import { mapGetters, mapActions } from 'vuex'
 import MyEditor from './MyEditor'
 
 export default {
+  props: {
+    labelWidth: {
+      type: String,
+      default: '140px'
+    },
+    inputMargin: {
+      type: String,
+      default: 'null'
+    },
+    labelPosition: {
+      type: String,
+      default: 'right'
+    }
+  },
   name: 'NewDiscussion',
   components: {
     editor: MyEditor,
   },
   data() {
     return {
-      labelWidth: '140px',
       categories: [],
       tags: [],
       data: {

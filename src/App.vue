@@ -2,7 +2,8 @@
   <div id="app">
     <header id="app-header" :class="scrolled ? 'layup' : ''">
       <div class="inner">
-        <div id="header-logo"></div>
+        <fa-icon icon="bars" @click="toggleShowMobMenu" class="mob-menu"></fa-icon>
+        <router-link to="/" id="header-logo"></router-link>
         <ul id="header-index">
           <li><router-link to="/">首页</router-link></li>
           <li><router-link to="/topic/1983">新手指南</router-link></li>
@@ -30,7 +31,7 @@
     </header>
     <div id="app-contents">
       <div class="inner">
-        <sidebar></sidebar>
+        <sidebar :show-mob-menu="isShowMobMenu" @close-mob-menu="toggleShowMobMenu"></sidebar>
         <div id="app-main">
           <router-view/>
         </div>
@@ -64,6 +65,7 @@ export default {
   },
   data() {
     return {
+      isShowMobMenu: false,
       scrolled: false,
       loginUrl: `https://developer-forum.rokid.com/session/sso?return_path=${location.href}`,
       query: null,
@@ -89,6 +91,9 @@ export default {
         this.$refs.searchInput.blur()
       }
     },
+    toggleShowMobMenu() {
+      this.isShowMobMenu = !this.isShowMobMenu;
+    }
   },
   mounted() {
     this.$store.dispatch('fetchCsrfToken')
@@ -107,6 +112,10 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+}
+
+.mob-menu {
+  display: none;
 }
 
 #app-header {
@@ -154,6 +163,7 @@ export default {
   width: 160px;
   float: left;
 }
+
 
 #header-index, #header-index li, #header-index a {
   display: inline-block;
@@ -290,6 +300,22 @@ export default {
 @media only screen and (max-width: 1100px) {
   #app-footer .inner {
     width: 100%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  #header-logo {
+    display: none;
+  }
+  .mob-menu {
+    display: block;
+    float: left;
+    height: 35px;
+    width: 20px !important;
+  }
+  #app-contents .inner {
+    padding-bottom: 10px;
+    display: block;
   }
 }
 </style>
