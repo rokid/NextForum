@@ -329,7 +329,7 @@ export default {
   right: 0;
   background-color: #2d3339;
   padding: 15px 15px 0 15px;
-  z-index: 2000;
+  z-index: 1600;
 }
 
 #sidebar {
@@ -363,7 +363,7 @@ export default {
   background: #e7672e;
   border: 0;
   width: 100%;
-  font-size: inherit;
+  font-size: 18px;
   font-weight: bold;
   transition: all 0.3s;
 }

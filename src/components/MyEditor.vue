@@ -8,6 +8,7 @@
       @imgAdd="addImage" />
     <!-- extend toolbar -->
     <el-popover
+      v-if="!isMobile()"
       v-model="emojiVisible"
       placement="right"
       trigger="hover"
@@ -128,7 +129,7 @@ export default {
           'Content-Type': 'multipart/form-data',
         },
       })
-      this.$refs.editor.$img2Url(pos, res.data && res.data.url)
+      this.$refs.editor.$img2Url(pos, 'https://developer-forum.rokid.com' + res.data.url)
     },
     handleUploadFile(context) {
       var data = new FormData()
@@ -152,7 +153,7 @@ export default {
       console.log(res)
       let editor = this.$refs.editor;
       editor.insertText(editor.getTextareaDom(), {
-        prefix: '[' + res.data.original_filename + '](' + res.data.url + ')',
+        prefix: '[' + res.data.original_filename + '](https://developer-forum.rokid.com' + res.data.url + ')',
         subfix: '',
         str: ''
       })
@@ -162,25 +163,56 @@ export default {
     },
     triggerupload(event){
       this.uploadElem.click()
+    },
+    isMobile() {
+
+      /**
+      *  作者：tony
+      *  链接：https://www.zhihu.com/question/21357506/answer/190898690
+      *  来源：知乎
+      *  著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+      */
+      var u = navigator.userAgent
+      var ua = {
+        trident: u.indexOf('Trident') > -1, //IE内核  
+        presto: u.indexOf('Presto') > -1,   //opera内核  
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核  
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核  
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端  
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端  
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器  
+        iPhone: u.indexOf('iPhone') > -1 , //是否为iPhone或者QQHD浏览器  
+        iPad: u.indexOf('iPad') > -1, //是否iPad    
+        webApp: u.indexOf('Safari') == -1, //是否web应该程序，没有头部与底部  
+        weixin: u.indexOf('MicroMessenger') > -1, //是否微信   
+        qq: u.match(/\sQQ/i) == " qq" //是否QQ  
+      }
+      if (ua.mobile || ua.ios || ua.android || ua.iPhone || ua.iPad) {
+        return true
+      }
+      return false
     }
   },
   mounted() {
     const editor = this.$refs.editor
-    const emoji = this.$refs.emoji
     // proxy for trigger uoload action
     const uploadProxy = this.$refs.uploadFile
     // the true upload button
     this.uploadElem = this.$refs.upload
-    editor.$refs.toolbar_left.$el.append(emoji)
     editor.$refs.toolbar_left.$el.append(uploadProxy)
-    // preload emoji.png
-    let img = new Image()
-    img.onload = () => {
-
+    var emoji
+    if (!this.isMobile()) {
+      emoji = this.$refs.emoji
+      editor.$refs.toolbar_left.$el.append(emoji)
+      // preload emoji.png
+      let img = new Image()
+      img.onload = () => {
+  
+      }
+      img.src = 'https://unpkg.com/emoji-datasource-' +
+        this.emojiConf.set + '@4.0.2/img/apple/sheets/' +
+        this.emojiConf.sheetSize + '.png'
     }
-    img.src = 'https://unpkg.com/emoji-datasource-' +
-      this.emojiConf.set + '@4.0.2/img/apple/sheets/' +
-      this.emojiConf.sheetSize + '.png'
   },
 }
 </script>

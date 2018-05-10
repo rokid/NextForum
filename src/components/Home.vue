@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <div class="rokid-events">
-      <img src="https://www.rokid.com/img/alien_hero.jpg" />
+      <a href="https://www.rokid.com/index.html">
+        <img src="https://www.rokid.com/img/alien_hero.jpg" />
+      </a>
     </div>
     <el-row class="rokid-row">
       <el-col :span="11" :xs="24" class="rokid-col rokid-excellent">
