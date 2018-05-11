@@ -9,10 +9,21 @@
           <fa-icon :icon="iconName(item.notification_type)" style="font-size:18px" />
         </div>
         <div class="item-main">
+          <p v-if="item.notification_type === 1">
+            <b>{{item.data.display_username}}</b>
+            @你了在
+            <router-link :to="`/topic/${item.topic_id}`">{{item.fancy_title}}</router-link>
+            中
+          </p>
           <p v-if="item.notification_type === 2">
             <b>{{item.data.display_username}}</b>
             回复了你
             <a>{{item.fancy_title}}</a>
+          </p>
+          <p v-if="item.notification_type === 4">
+            <b>{{item.data.display_username}}</b>
+            编辑了
+            <router-link :to="`/topic/${item.topic_id}`">{{item.fancy_title}}</router-link>
           </p>
           <p v-if="item.notification_type === 5">
             <b>{{item.data.display_username}}</b>
@@ -64,8 +75,12 @@ export default {
   },
   methods: {
     iconName(type) {
-      if (type === 2) {
+      if (type === 1) {
+        return ['fas', 'at']
+      } else if (type === 2) {
         return 'reply'
+      } else if (type == 4) {
+        return ['far', 'edit']
       } else if (type === 5) {
         return ['far', 'heart']
       } else if (type === 6) {
