@@ -58,8 +58,7 @@ import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 export default {
   name: 'NewDiscussion',
   props: [
-    'initialValue',
-    'onPickEmoji',
+    'initialValue'
   ],
   components: {
     'fa-icon': FontAwesomeIcon,
@@ -105,11 +104,17 @@ export default {
       this.$refs.editor.textAreaFocus()
     },
     pickEmoji(item) {
-      if (typeof this.$props.onPickEmoji === 'function') {
-        this.$props.onPickEmoji(item)
-      }
-      this.focus()
-      this.emojiVisible = false
+      // if (typeof this.$props.onPickEmoji === 'function') {
+      //   this.$props.onPickEmoji(item)
+      // }
+      // this.focus()
+      let editor = this.$refs.editor;
+      editor.insertText(editor.getTextareaDom(), {
+        prefix: item.native,
+        subfix: '',
+        str: ''
+      })
+      // this.emojiVisible = false
     },
     renderEmoji() {
       setTimeout(() => {
@@ -150,7 +155,6 @@ export default {
       })
     },
     onUploadFileSuccess(res, file, fileList) {
-      console.log(res)
       let editor = this.$refs.editor;
       editor.insertText(editor.getTextareaDom(), {
         prefix: '[' + res.data.original_filename + '](https://developer-forum.rokid.com' + res.data.url + ')',

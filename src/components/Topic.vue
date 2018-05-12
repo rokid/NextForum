@@ -94,8 +94,7 @@
         </div>
         <editor
           ref="replyEditor"
-          :initialValue="contents"
-          :onPickEmoji="pickEmoji" />
+          :initialValue="contents" />
         <div class="reply-footer">
           <el-button type="primary" size="small" @click="sendReply()">
             <fa-icon icon="reply" /> 发送
@@ -165,6 +164,7 @@ export default {
     ]),
   },
   methods: {
+    // 盘古开天辟地，把文字劈开。search pangu on github for more info
     spacing(text) {
       return pangu.spacing(text)
     },
@@ -218,14 +218,21 @@ export default {
           tags: discussion.data.tags,
         })
       }
-      await this.$http.put(`/posts/${discussion.post.id}`, {
+      this.$http.put(`/posts/${discussion.post.id}`, {
         post: {
           raw: discussion.contents,
         },
+      }).then((response) => {
+        this.editPostDialogVisible = false
+        this.$message({ type: 'success', message: '修改成功' })
+        this.reload()
+      }).catch((error) => {
+        if (error.response && error.response.data && error.response.data.errors) {
+          this.$alert(error.response.data.errors.join(''))
+        }else{
+          this.$alert('啊哦😰！未知错误，你可以给我们反馈')
+        }
       })
-      this.editPostDialogVisible = false
-      this.$message({ type: 'success', message: '修改成功' })
-      this.reload()
     },
     async toggleLike(post) {
       if (post.isLiked) {
@@ -248,12 +255,16 @@ export default {
     },
     replyWith(item) {
       if (item) {
-        this.contents = `@${item.username} `
-        this.replyToPostId = item.id
+        this.contents = ''
+        // bug-fix: 第一次点击回复后，把editor内容清空，再点击同一个人回复失效
+        this.$nextTick(() => {
+          this.contents = `@${item.username} `
+          this.replyToPostId = item.id
+          this.$scrollTo('#reply', 800)
+          this.$refs.replyEditor.focus()
+        });
       }
 
-      this.$scrollTo('#reply', 800)
-      this.$refs.replyEditor.focus()
     },
     async sendReply() {
       const eidtor = this.$refs.replyEditor
@@ -271,22 +282,30 @@ export default {
         data.nested_post = true
       }
 
-      const response = await this.$http.request({
+      this.$http.request({
         method: 'post',
         url: '/posts',
         data,
+      }).then((response) => {
+        let resultPost
+        if (this.replyToPostId && response.data.success) {
+          resultPost = response.data.post
+        } else {
+          resultPost = response.data
+        }
+        // bug-fix: 原评论数没同步，导致无限加载
+        this.rawTopic.posts_count++;
+        this.posts.push(resultPost)
+        this.contents = ''
+        this.replyToPostId = null
+      }).catch((error) => {
+        if (error.response && error.response.data && error.response.data.errors) {
+          this.$alert(error.response.data.errors.join(''))
+        }else{
+          this.$alert('啊哦😰！未知错误，你可以给我们反馈')
+        }
       })
 
-      let resultPost
-      if (this.replyToPostId && response.data.success) {
-        resultPost = response.data.post
-      } else {
-        resultPost = response.data
-      }
-
-      this.posts.push(resultPost)
-      this.contents = ''
-      this.replyToPostId = null
     },
     postViewHandler(index, event) {
       if (this.rendered) {
@@ -344,10 +363,7 @@ export default {
           },
         },
       })
-    },
-    pickEmoji(item) {
-      this.contents += item.native
-    },
+    }
   },
   async mounted() {
     await this.reload()

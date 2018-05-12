@@ -81,3 +81,11 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
+postCreditsScene();
+
+function postCreditsScene(){
+  var charLogo = '\n';
+  console.info('你想干嘛？别搞破坏啊！搞破坏请@大发');
+}
+
