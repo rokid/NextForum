@@ -2,6 +2,7 @@
   <div>
     <mavon-editor
       ref="editor"
+      @change="change"
       :value="initialValue"
       :subfield="false" 
       :toolbars="editorToolbar"
@@ -115,6 +116,9 @@ export default {
         str: ''
       })
       // this.emojiVisible = false
+    },
+    change(value, render) {
+      this.$emit('change', value, render)
     },
     renderEmoji() {
       setTimeout(() => {

@@ -86,6 +86,6 @@ postCreditsScene();
 
 function postCreditsScene(){
   var charLogo = '\n';
-  console.info('你想干嘛？别搞破坏啊！搞破坏请@大发');
+  console.info('你想干嘛？想跟我们一起play？请@大发');
 }
 

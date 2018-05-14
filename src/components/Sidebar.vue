@@ -201,6 +201,8 @@ export default {
     },
     async postNewDiscussion() {
       const { data } = this.$refs.newDiscussionForm;
+      console.log(data);
+      
       if (!data.topic) {
         this.$message({ type: "error", message: "主题不可为空" });
         return;
@@ -230,7 +232,7 @@ export default {
       if (response.data.success) {
         this.newDiscussionDialogVisible = false;
         this.$router.push({
-          path: `/topic/${response.data.post.id}`
+          path: `/topic/${response.data.post.topic_id}`
         });
       } else {
         this.$message({

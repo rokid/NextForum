@@ -29,7 +29,7 @@
       </el-select>
     </el-form-item>
     <el-form-item :label-width="inputMargin === 'null' ? labelWidth:inputMargin">
-      <editor :initialValue="data.contents" :onPickEmoji="pickEmoji" />
+      <editor initialValue="" @change="updateContent" />
     </el-form-item>
   </el-form>
 </template>
@@ -110,9 +110,9 @@ export default {
           await this.getCategories(parentId), false)
       }
     },
-    pickEmoji(item) {
-      this.data.contents += item.native
-    },
+    updateContent(value, render) {
+      this.data.contents = render
+    }
   },
   async mounted() {
     this.categories = this.categoriesOption
