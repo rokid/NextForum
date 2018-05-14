@@ -103,11 +103,7 @@ export default {
   width: 100%;
   height: 100%;
 }
-.rokid-events img {
-  position: absolute;
-  bottom: -150px;
-  width: 100%;
-}
+
 .rokid-row {
   margin: 30px 0;
 }
