@@ -83,6 +83,12 @@
         <!-- the main sidebar items -->
         <div>
           <ul>
+            <li class="text-button all-discussion">
+              <router-link to="/">
+                <fa-icon icon="home" class="icon" />
+                <span>首页</span>
+              </router-link>
+            </li>
             <li class="text-button all-discussion" @click="closeMobMenu" :class="isActive('all') ? 'active' : ''">
               <router-link to="/category/all">
                 <fa-icon :icon="['far', 'comments']" class="icon" />

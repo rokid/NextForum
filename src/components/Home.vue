@@ -1,9 +1,7 @@
 <template>
   <div class="container">
     <div class="rokid-events">
-      <a href="https://www.rokid.com/index.html">
-        <img src="https://www.rokid.com/img/alien_hero.jpg" />
-      </a>
+      <router-link to="/topic/2051" class="rokid-event-link"></router-link>
     </div>
     <el-row class="rokid-row">
       <el-col :span="11" :xs="24" class="rokid-col rokid-excellent">
@@ -90,12 +88,20 @@ export default {
   padding-top: 30px;
 }
 .rokid-events {
+  position: relative;
   background: #eee;
   height: 280px;
   width: 100%;
   border-radius: 4px;
   overflow: hidden;
   position: relative;
+  background-image: url('https://rokidweb.oss-cn-hangzhou.aliyuncs.com/skills/forum/pc0514.png');
+  background-size: 100%;
+}
+.rokid-events .rokid-event-link {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 .rokid-events img {
   position: absolute;
@@ -154,6 +160,10 @@ export default {
 }
 
 @media only screen and (max-width: 768px) {
+  .rokid-events {
+    background-image: url('https://rokidweb.oss-cn-hangzhou.aliyuncs.com/skills/forum/mob0514.png');
+    background-size: 100%;
+  }
   .container {
     padding: 30px 0 20px 0;
   }
