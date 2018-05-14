@@ -289,14 +289,20 @@ export default {
       }).then((response) => {
         let resultPost
         if (this.replyToPostId && response.data.success) {
-          resultPost = response.data.post
+          resultPost = response.data.post 
         } else {
           resultPost = response.data
         }
+        // hack: 发表回复后图片路径替换。discourse会自动替换，但posts不会
+        resultPost.cooked = resultPost.cooked.replace(/<img src="(\S+)"/g, '<img src="//developer-forum.rokid.com$1"')
         // bug-fix: 原评论数没同步，导致无限加载
         this.rawTopic.posts_count++;
         this.posts.push(resultPost)
-        this.contents = ''
+        this.contents = ' '
+        // hack: 发表回复后清空编辑器
+        this.$nextTick(() => {
+          this.contents = ''
+        })
         this.replyToPostId = null
       }).catch((error) => {
         if (error.response && error.response.data && error.response.data.errors) {

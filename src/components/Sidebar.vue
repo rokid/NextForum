@@ -201,7 +201,6 @@ export default {
     },
     async postNewDiscussion() {
       const { data } = this.$refs.newDiscussionForm;
-      console.log(data);
       
       if (!data.topic) {
         this.$message({ type: "error", message: "主题不可为空" });
