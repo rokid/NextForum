@@ -82,11 +82,77 @@ new Vue({
   template: '<App/>'
 })
 
+
+
 postCreditsScene();
 
 function postCreditsScene(){
+  console.clear()
   console.info('你想干嘛？想跟我们一起play？请@大发');
   var charLogo = '\n ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄    ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄  \n▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░▌ \n▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░▌ ▐░▌  ▀▀▀▀█░█▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌\n▐░▌       ▐░▌▐░▌       ▐░▌▐░▌▐░▌       ▐░▌     ▐░▌       ▐░▌\n▐░█▄▄▄▄▄▄▄█░▌▐░▌       ▐░▌▐░▌░▌        ▐░▌     ▐░▌       ▐░▌\n▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░░▌         ▐░▌     ▐░▌       ▐░▌\n▐░█▀▀▀▀█░█▀▀ ▐░▌       ▐░▌▐░▌░▌        ▐░▌     ▐░▌       ▐░▌\n▐░▌     ▐░▌  ▐░▌       ▐░▌▐░▌▐░▌       ▐░▌     ▐░▌       ▐░▌\n▐░▌      ▐░▌ ▐░█▄▄▄▄▄▄▄█░▌▐░▌ ▐░▌  ▄▄▄▄█░█▄▄▄▄ ▐░█▄▄▄▄▄▄▄█░▌\n▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░▌ \n ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀    ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀  \n\n';
   console.log(charLogo)
+  initShell();
+  console.log(window.help)
 }
 
+function initShell() {
+  var menu = {
+    'help': function(){
+      return `--------------------------------------------------------------
+ -------------       cshell 一秒钟从入门到精通        ------------
+ --------------------------------------------------------------
+ 提示：按回车可以自动补全哦，请在Chrome下体验☺️
+ help - 查看所有可用命令的用法
+ bug - 反馈bug或帮助我们修复bug
+ fork - 查看论坛的GitHub地址
+ rokid() - 你自己看看就知道了，别忘了括号
+ whos - 看看这里都有谁？听说他们很喜欢和你玩哦
+ who.is.$name - 如果你想了解更多他们的信息，请把 $name 替换成相应的人名
+ $name - 你也可以直接输入中文人名了解哦
+ about - 关于我们
+`
+    },
+    'bug': function(){
+      return `你发现bug了？可以@大发向我们提交bug，或者fork me on github
+ 输入 dafa 了解大发，输入 fork 获取GitHub地址`;
+    },
+    'fork': function(){
+      return `点击链接查看文档：https://github.com/Rokid/NextForum`
+    },
+    'whos': function(){
+      return ` dafa - 颜值担当
+ sudo - bug担当
+ yorkie - niubility担当`
+    },
+    'about': function(){
+      return `其实没什么，既然你诚心诚意的输入命令了，我们就大发慈悲的告诉你：我们是 - welcome to the jungle !`
+    }
+  }
+  for (let command in menu) {
+    if (menu.hasOwnProperty(command)) {
+      window[command] = menu[command]();
+    }
+  }
+  var names = {
+    'dafa': '大发是谁？你问我我也不知道，你试试在评论中 @大发',
+    'sudo': 'sudo，bug担当，也许是bug最多的',
+    'yorkie': 'yorkie === niubility，不会读这个单词？跟我念：牛逼力踢'
+  };
+  window['大发'] = names.dafa;
+  window['晓飞'] = names.sudo;
+  window['亚中'] = names.yorkie;
+  window.who = {}
+  who.is = {
+    '大发': names.dafa,
+    '晓飞': names.sudo,
+    '亚中': names.yorkie,
+    'dafa': names.dafa,
+    'sudo': names.sudo,
+    'yorkie': names.yorkie
+  }
+
+  window.rokid = function(){
+    console.log("%cRokid"," text-shadow: 0 1px 0 #ccc,0 2px 0 #c9c9c9,0 3px 0 #bbb,0 4px 0 #b9b9b9,0 5px 0 #aaa,0 6px 1px rgba(0,0,0,.1),0 0 5px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(0,0,0,.2),0 5px 10px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.2),0 20px 20px rgba(0,0,0,.15);font-size:100px");
+    console.log('Rokid官网：https://www.rokid.com');
+  }
+}
