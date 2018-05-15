@@ -110,6 +110,7 @@ function initShell() {
  who.is.$name - 如果你想了解更多他们的信息，请把 $name 替换成相应的人名
  $name - 你也可以直接输入中文人名了解哦
  about - 关于我们
+ cshell - 这是什么东西？
  更多彩蛋等你发现
 `
     },
@@ -127,6 +128,9 @@ function initShell() {
     },
     'about': function(){
       return `其实没什么，既然你诚心诚意的输入命令了，那我们就大发慈悲的告诉你：我们是 - welcome to the jungle ! 快来和我们一起玩！`
+    },
+    'cshell': function(){
+      return `Console Shell，我叫它 cshell。哈哈，胡扯的，其实就是一个小idea而已，如果你感兴趣，欢迎 @sudo 跟我一起脑洞`
     }
   }
   for (let command in menu) {
