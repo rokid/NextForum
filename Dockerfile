@@ -15,7 +15,7 @@ COPY build          /opt/app/build
 COPY config         /opt/app/config
 COPY static         /opt/app/static
 
-RUN  npm install
+RUN  npm install --registry=https://registry.npm.taobao.org
 RUN  npm run build
 
 EXPOSE 8080
