@@ -446,7 +446,7 @@ export default {
 }
 .post-body {
   padding-top: 10px;
-  font-family: 'PingFang SC,Helvetica,Arial,sans-serif';
+  font-family: 'PingFang SC', Helvetica, Arial, sans-serif;
   font-size: 16px;
   color: #222;
   line-height: 1.8;
