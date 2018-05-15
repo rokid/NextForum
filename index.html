@@ -12,7 +12,7 @@
         padding: 0;
       }
       #forum-debug p {
-        padding: 0 15px;
+        padding: 0 15px !important;
         line-height: 150%;
       }
       #forum-debug .header {
@@ -56,6 +56,7 @@ var _hmt = _hmt || [];
     setTimeout(function(){
       var debugDOM = document.getElementById('forum-debug');
       if (debugDOM) {
+        document.body.style.backgroundColor = '#eeeeee';
         debugDOM.style.display = 'block';
       }
     }, 500);
