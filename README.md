@@ -7,16 +7,30 @@ NextForum 是基于 Vue/Vuex 技术栈，对 Discourse 论坛前端的深度改�
 
 [![img](screenshot.png)](screenshot.png)
 
-### 本地运行
+### 开发环境搭建
+
+编辑你的host文件，加上 `127.0.0.1    forum-dev.rokid.com`
+
+MacOS/Linux 系统直接
 
 ```sh
-$ yarn
+sudo vim /etc/hosts
+```
+
+windows系统
+
+用记事本或文本编辑器编辑：`c:/windows/system32/drivers/etc/hosts`
+
+### 启动
+
+```sh
+$ yarn  // 不想用yarn，也可以用npm install
 $ sudo npm run dev
 ```
 
 ### 贡献
 
-任何意见或建议，欢迎提 [issues](issues/new)
+任何意见或建议，欢迎提 [issues](issues/new)，你也可以直接fork然后提PR
 
 ### 开放
 

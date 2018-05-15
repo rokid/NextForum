@@ -1,5 +1,6 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import 'babel-polyfill'
 import Vue from 'vue'
 import VueCookie from 'vue-cookie'
 import VueAffix from 'vue-affix'
@@ -83,7 +84,6 @@ new Vue({
 })
 
 
-
 postCreditsScene();
 
 function postCreditsScene(){
@@ -110,6 +110,7 @@ function initShell() {
  who.is.$name - 如果你想了解更多他们的信息，请把 $name 替换成相应的人名
  $name - 你也可以直接输入中文人名了解哦
  about - 关于我们
+ 更多彩蛋等你发现
 `
     },
     'bug': function(){
@@ -120,12 +121,12 @@ function initShell() {
       return `点击链接查看文档：https://github.com/Rokid/NextForum`
     },
     'whos': function(){
-      return ` dafa - 颜值担当
+      return `dafa - 颜值担当
  sudo - bug担当
  yorkie - niubility担当`
     },
     'about': function(){
-      return `其实没什么，既然你诚心诚意的输入命令了，我们就大发慈悲的告诉你：我们是 - welcome to the jungle !`
+      return `其实没什么，既然你诚心诚意的输入命令了，那我们就大发慈悲的告诉你：我们是 - welcome to the jungle ! 快来和我们一起玩！`
     }
   }
   for (let command in menu) {
@@ -134,10 +135,13 @@ function initShell() {
     }
   }
   var names = {
-    'dafa': '大发是谁？你问我我也不知道，你试试在评论中 @大发',
-    'sudo': 'sudo，bug担当，也许是bug最多的',
-    'yorkie': 'yorkie === niubility，不会读这个单词？跟我念：牛逼力踢'
+    'dafa': '大发是谁？一个集美貌和才华于一身的女子，你试试在评论中 @大发',
+    'sudo': '英文名叫 sudo，一个集帅气和才华都没有的男子，根本不是写代码的，是写bug的',
+    'yorkie': 'yorkie === niubility，不会读这个单词？跟我念：牛逼力踢！'
   };
+  window['dafa'] = names.dafa;
+  window['sudo'] = names.sudo;
+  window['yorkie'] = names.yorkie;
   window['大发'] = names.dafa;
   window['晓飞'] = names.sudo;
   window['亚中'] = names.yorkie;

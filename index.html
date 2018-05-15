@@ -6,15 +6,60 @@
     <link rel="icon" type="image/png" sizes="32x32" href="">
     <link rel="manifest" href="/static/manifest.json">
     <title>Rokid 讨论区</title>
+    <style type="text/css">
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #forum-debug p {
+        padding: 0 15px;
+        line-height: 150%;
+      }
+      #forum-debug .header {
+        margin: 0;
+        height: 50px;
+        line-height: 50px;
+        background-color: #222;
+        font-size: 26px;
+        color: #ddd;
+        text-align: center;
+      }
+      #forum-debug .sub-title {
+        font-size: 20px;
+        font-weight: bold;
+      }
+      #forum-debug a {
+        border-bottom: 1px solid blue;
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div id="forum-debug" style="display: none">
+        <h3 class="header">Rokid love you</h3>
+        <p class="sub-title">哦~~非常抱歉，当前浏览器不支持船新版本</p>
+        <p>推荐使用Chrome或者Firefox浏览器打开，或者使用最新版QQ浏览器，您还可以在微信中打开。</p>
+        <p>如果您不想现在更换浏览器，我们还为您保留了旧版，您可以点击下面的连接访问。</p>
+        <p>
+          <a href="https://developer-forum.rokid.com/">点击这里访问旧版</a>
+          <a href="mailto:developer@rokid.com" style="margin-left: 15px;">点击这里反馈问题</a>
+        </p>
+      </div>
+    </div>
     <!-- built files will be auto injected -->
   </body>
 </html>
 <script>
 var _hmt = _hmt || [];
 (function() {
+  window.onload = function () {
+    setTimeout(function(){
+      var debugDOM = document.getElementById('forum-debug');
+      if (debugDOM) {
+        debugDOM.style.display = 'block';
+      }
+    }, 500);
+  }
   if (window.location.hostname === 'forum.rokid.com') {
     var hm = document.createElement("script");
     hm.src = "https://hm.baidu.com/hm.js?e5f24dd08b0ef59ef1019be4cb271fdc";

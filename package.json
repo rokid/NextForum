@@ -15,6 +15,7 @@
     "@fortawesome/fontawesome-free-solid": "^5.0.9",
     "@fortawesome/vue-fontawesome": "^0.0.22",
     "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
     "element-ui": "^2.3.3",
     "emoji-mart-vue": "^2.5.3",
     "express": "^4.16.3",
