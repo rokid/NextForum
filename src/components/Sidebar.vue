@@ -83,7 +83,7 @@
         <!-- the main sidebar items -->
         <div>
           <ul>
-            <li class="text-button all-discussion">
+            <li class="text-button all-discussion" @click="closeMobMenu">
               <router-link to="/">
                 <fa-icon icon="home" class="icon" />
                 <span>首页</span>
@@ -195,7 +195,7 @@ export default {
       }
     },
     isSubActive(item) {
-      const id = this.categoryName(item);
+      var id = this.categoryName(item);
       if (
         this.$route.name === "CategoryDetail" &&
         this.$route.params.subId === id
@@ -206,7 +206,7 @@ export default {
       }
     },
     async postNewDiscussion() {
-      const { data } = this.$refs.newDiscussionForm;
+      var { data } = this.$refs.newDiscussionForm;
       
       if (!data.topic) {
         this.$message({ type: "error", message: "主题不可为空" });
@@ -222,7 +222,7 @@ export default {
       }
 
       this.postingNew = true;
-      const response = await this.$http.post("/posts", {
+      var response = await this.$http.post("/posts", {
         raw: data.contents,
         title: data.topic,
         unlist_topic: false,
@@ -248,7 +248,7 @@ export default {
       }
     },
     async postNewDiscussion2() {
-      const { data } = this.$refs.newDiscussionForm2;
+      var { data } = this.$refs.newDiscussionForm2;
       if (!data.topic) {
         this.$message({ type: "error", message: "主题不可为空" });
         return;
@@ -263,7 +263,7 @@ export default {
       }
 
       this.postingNew2 = true;
-      const response = await this.$http.post("/posts", {
+      var response = await this.$http.post("/posts", {
         raw: data.contents,
         title: data.topic,
         unlist_topic: false,
@@ -290,7 +290,7 @@ export default {
     },
     async checkSubCategories(route = this.$route) {
       this.subCategories = [];
-      const curr = await this.findCategoryBySlug(route.params.id);
+      var curr = await this.findCategoryBySlug(route.params.id);
       if (!curr || !curr.has_children || !curr.id) {
         return;
       }

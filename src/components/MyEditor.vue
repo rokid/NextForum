@@ -202,9 +202,9 @@ export default {
     }
   },
   mounted() {
-    const editor = this.$refs.editor
+    var editor = this.$refs.editor
     // proxy for trigger uoload action
-    const uploadProxy = this.$refs.uploadFile
+    var uploadProxy = this.$refs.uploadFile
     // the true upload button
     this.uploadElem = this.$refs.upload
     editor.$refs.toolbar_left.$el.append(uploadProxy)

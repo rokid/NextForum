@@ -41,7 +41,7 @@ export default {
   methods: {
     ...mapActions(['getTags']),
     randomColor() {
-      const letters = '123456789'
+      var letters = '123456789'
       let color = '#'
       for (let i = 0; i < 2; i++) {
         let v = letters[Math.floor(Math.random() * letters.length)]
@@ -51,7 +51,7 @@ export default {
     },
   },
   async mounted() {
-    const tags = await this.getTags()
+    var tags = await this.getTags()
   },
 }
 </script>

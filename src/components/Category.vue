@@ -91,12 +91,12 @@ export default {
   },
   watch: {
     $route(to, from) {
-      const { id, subId } = to.params
+      var { id, subId } = to.params
       this.reload(id, subId)
     },
   },
   mounted() {
-    const { id, subId } = this.$route.params
+    var { id, subId } = this.$route.params
     this.reload(id, subId)
   },
 }

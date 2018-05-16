@@ -1,13 +1,13 @@
 import Vue from 'vue';
 
-const state = {
+var state = {
   excellent: [],
   tutorials: [],
   issues: [],
   events: [],
 }
 
-const mutations = {
+var mutations = {
   updateExcellentTopics(state, list) {
     state.excellent = list
   },
@@ -22,7 +22,7 @@ const mutations = {
   },
 }
 
-const getters = {
+var getters = {
   excellentTopics(state) {
     return state.excellent
   },
@@ -37,10 +37,10 @@ const getters = {
   },
 }
 
-const actions = {
+var actions = {
   async pollAllTopics({ commit }) {
-    const select = res => res.data.topic_list.topics
-    const render = (key) => {
+    var select = res => res.data.topic_list.topics
+    var render = (key) => {
       return (list) => commit(key, list)
     }
 

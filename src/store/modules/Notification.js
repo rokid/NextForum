@@ -1,17 +1,17 @@
 import Vue from 'vue';
 
-const state = {
+var state = {
   all: [],
 }
 
-const mutations = {
+var mutations = {
   replace(state, list) {
     if (list)
       state.all = list
   },
 }
 
-const getters = {
+var getters = {
   allNotifications(state) {
     return state.all
   },
@@ -20,9 +20,9 @@ const getters = {
   },
 }
 
-const actions = {
+var actions = {
   async loadNotifications({ commit }) {
-    const res = await Vue.http.get('/notifications.json')
+    var res = await Vue.http.get('/notifications.json')
     commit('replace', res.data.notifications)
   },
 }

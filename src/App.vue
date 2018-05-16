@@ -32,6 +32,7 @@
     </header>
     <div id="app-contents">
       <div class="inner">
+        <!-- listen click event -->
         <sidebar :show-mob-menu="isShowMobMenu" @close-mob-menu="toggleShowMobMenu"></sidebar>
         <div id="app-main">
           <router-view/>

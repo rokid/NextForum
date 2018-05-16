@@ -42,7 +42,7 @@ export default {
       return `https://developer-forum.rokid.com/${post.avatar_template.replace('{size}', 36)}`
     },
     title(topicId) {
-      const topic = this.raw.topics.find((item) => item.id === topicId)
+      var topic = this.raw.topics.find((item) => item.id === topicId)
       if (!topic)
         return null
       return topic.fancy_title
@@ -57,7 +57,7 @@ export default {
       this.raw = {}
       this.posts = []
       this.state = 'init'
-      const response = await this.$http.get('/search?q=' + this.$route.query.q)
+      var response = await this.$http.get('/search?q=' + this.$route.query.q)
       this.raw = response.data
       this.posts = this.raw.posts
       this.state = 'finished'

@@ -181,7 +181,7 @@ export default {
     },
     async saveTitle() {
       this.titleEditable = false
-      const title = this.$refs.title.innerText
+      var title = this.$refs.title.innerText
       if (!title) {
         this.$message({ type: 'error', message: '标题不能为空' })
         this.$refs.title.innerText = this.title
@@ -191,7 +191,7 @@ export default {
         // just skip it if the title is not changed
         return;
       }
-      const { data } = await this.$http.put(`/t/topic/${this.rawTopic.id}`, { title })
+      var { data } = await this.$http.put(`/t/topic/${this.rawTopic.id}`, { title })
       this.title = title
       this.$message({ type: 'success', message: '标题修改成功' })
     },
@@ -203,7 +203,7 @@ export default {
       }, 100)
     },
     async savePost() {
-      const discussion = this.$refs.editDiscussion
+      var discussion = this.$refs.editDiscussion
       if (!discussion.data.topic) {
         this.$message({ type: 'error', message: '标题不能为空' })
         return
@@ -243,7 +243,7 @@ export default {
         post.isLiked = true
         post.likes += 1
         this.$forceUpdate()
-        const res = await this.$http.request({
+        var res = await this.$http.request({
           method: 'post',
           url: '/post_actions',
           data: {
@@ -267,8 +267,8 @@ export default {
 
     },
     async sendReply() {
-      const eidtor = this.$refs.replyEditor
-      const data = {
+      var eidtor = this.$refs.replyEditor
+      var data = {
         raw: eidtor.value,
         unlist_topic: false,
         category: this.rawTopic.category_id,
@@ -327,7 +327,7 @@ export default {
       this.$scrollTo('body', 300)
       this.loading = true
 
-      const res = await this.$http.get(`/t/${this.$route.params.id}.json`)
+      var res = await this.$http.get(`/t/${this.$route.params.id}.json`)
       this.rawTopic = res.data
       this.title = res.data.title
       this.posts = res.data.post_stream.posts
@@ -341,14 +341,14 @@ export default {
         return;
 
       this.loadingMore = true
-      const lastId = this.posts.length + 6
-      const res = await this.$http.get(`/t/${this.$route.params.id}/${lastId}.json`)
-      const next = res.data.post_stream.posts
+      var lastId = this.posts.length + 6
+      var res = await this.$http.get(`/t/${this.$route.params.id}/${lastId}.json`)
+      var next = res.data.post_stream.posts
       console.log(next.length)
 
       if (next && next.length) {
         for (let i = 0; i < next.length; i++) {
-          const j = next[i].post_number - 1
+          let j = next[i].post_number - 1
           this.posts[j] = next[i]
         }
         this.$forceUpdate();
@@ -356,11 +356,11 @@ export default {
       this.loadingMore = false
     },
     async toggleBookmark(post) {
-      const val = !post.bookmarked
+      var val = !post.bookmarked
       post.bookmarked = val
       this.$forceUpdate()
 
-      const data = new FormData()
+      var data = new FormData()
       data.set('bookmarked', post.bookmarked)
       await this.$http.put(`/posts/${post.id}/bookmark`, data, {
         config: {

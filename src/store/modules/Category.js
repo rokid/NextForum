@@ -1,11 +1,11 @@
 import Vue from 'vue';
 
-const state = {
+var state = {
   canCreateTopic: null,
   all: [],
 }
 
-const mutations = {
+var mutations = {
   updateCategoriesList(state, { list, canCreateTopic, isRoot, parent }) {
     if (isRoot) {
       state.canCreateTopic = canCreateTopic
@@ -16,13 +16,13 @@ const mutations = {
   },
 }
 
-const getters = {
+var getters = {
   allCategories(state) {
     return state.all
   },
 }
 
-const actions = {
+var actions = {
   async getCategories({ commit, dispatch }, parentId) {
     let pathname = '/categories.json'
     let parent = null
@@ -35,9 +35,9 @@ const actions = {
         return parent.children
       pathname += `?parent_category_id=${parentId}`
     }
-    const { data } = await Vue.http.get(pathname)
-    const { categories } = data.category_list || []
-    const options = {
+    var { data } = await Vue.http.get(pathname)
+    var { categories } = data.category_list || []
+    var options = {
       list: categories,
       canCreateTopic: data.category_list.can_create_topic,
       parent,
@@ -57,7 +57,7 @@ const actions = {
       return;
 
     let id
-    const mslug = slug.match(/^(\d+)\-category$/)
+    var mslug = slug.match(/^(\d+)\-category$/)
     if (mslug && mslug.length === 2) {
       id = parseInt(mslug, 10)
       return await dispatch('findCategoryById', { id })

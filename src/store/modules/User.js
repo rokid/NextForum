@@ -1,12 +1,12 @@
 import Vue from 'vue';
 
-const state = {
+var state = {
   username: null,
   authorized: false,
   csrf: null,
 }
 
-const mutations = {
+var mutations = {
   login(state, { username }) {
     state.username = username
     state.authorized = true
@@ -20,7 +20,7 @@ const mutations = {
   },
 }
 
-const getters = {
+var getters = {
   authorized(state) {
     return state.authorized
   },
@@ -32,7 +32,7 @@ const getters = {
   },
 }
 
-const actions = {
+var actions = {
   async login({ commit, dispatch }, user) {
     commit('login', user)
     await dispatch('fetchCsrfToken')
@@ -43,7 +43,7 @@ const actions = {
   async fetchCsrfToken({ commit, state }) {
     if (state.csrf)
       return;
-    const { data } = await Vue.http.get('/session/csrf.json')
+    var { data } = await Vue.http.get('/session/csrf.json')
     commit('setCsrfToken', data.csrf)
     Vue.registerWithCsrfToken(data.csrf)
   },

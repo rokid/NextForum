@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-const state = {
+var state = {
   toolbar: {
     bold: true, // 粗体
     italic: true, // 斜体
@@ -38,7 +38,7 @@ const state = {
   },
 }
 
-const getters = {
+var getters = {
   editorToolbar(state) {
     return state.toolbar
   },

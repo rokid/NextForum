@@ -3,13 +3,27 @@
 NextForum 是基于 Vue/Vuex 技术栈，对 Discourse 论坛前端的深度改造，界面优雅、功能丰富、小巧迅速。
 是 Rokid 下一代开放社区论坛的前端技术架构。
 
-> 新域名：敬请期待
+> 新域名：forum.rokid.com
 
-[![img](screenshot.png)](screenshot.png)
+### 船新版本
+
+PC端
+
+[![img](screenshot-pc.png)](screenshot-pc.png)
+
+移动端
+
+![img](screenshot-mobile.png)
+
+当然，还有好玩的彩蛋，我们叫它 cshell，不来了解一下吗？
+
+![img](screenshot-egg.png)
+
+还有，遇到不支持浏览器的优雅的降级页面，你们自己发掘吧。
 
 ### 开发环境搭建
 
-编辑你的host文件，加上 `127.0.0.1    forum-dev.rokid.com`
+编辑你的 host 文件，加上 `127.0.0.1    forum-dev.rokid.com`
 
 MacOS/Linux 系统直接
 
@@ -24,13 +38,15 @@ windows系统
 ### 启动
 
 ```sh
-$ yarn  // 不想用yarn，也可以用npm install
+$ yarn
+#不想用yarn，也可以用npm install
+
 $ sudo npm run dev
 ```
 
 ### 贡献
 
-任何意见或建议，欢迎提 [issues](issues/new)，你也可以直接fork然后提PR
+任何意见或建议，欢迎提 [issues](issues/new)，你也可以直接 fork 然后提 PR
 
 ### 开放
 

@@ -1,7 +1,7 @@
 'use strict'
 
-const files = require.context('.', false, /\.js$/)
-const modules = {}
+var files = require.context('.', false, /\.js$/)
+var modules = {}
 
 files.keys().forEach((key) => {
   if (key === './index.js') return

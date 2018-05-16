@@ -88,7 +88,7 @@ export default {
     ]),
     createCategoriesOption(list, ownChildren = true) {
       return list.map((item) => {
-        const option = {
+        var option = {
           label: item.name,
           value: item.id,
         }
@@ -100,10 +100,10 @@ export default {
       })
     },
     async loadSubCategories(val) {
-      const parentId = val[val.length - 1]
+      var parentId = val[val.length - 1]
       this.data.category = [parentId]
 
-      const category = this.categories.find(
+      var category = this.categories.find(
         item => item.value === parentId)
       if (category) {
         category.children = this.createCategoriesOption(
@@ -112,7 +112,7 @@ export default {
     },
     async setPost(item) {
       this.isEditTopic = item.post_number === 1
-      const { data } = await this.$http.get(`/posts/${item.id}`);
+      var { data } = await this.$http.get(`/posts/${item.id}`);
       this.data.contents = data.raw
     },
     pickEmoji(item) {
