@@ -329,5 +329,8 @@ export default {
     padding-bottom: 10px;
     display: block;
   }
+  .el-message-box {
+    width: 80%;
+  }
 }
 </style>
