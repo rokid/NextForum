@@ -44,6 +44,12 @@ $ yarn
 $ sudo npm run dev
 ```
 
+### 移动端调试
+
+使用 vconsole 可以在移动端调试进行简单的 js 调试
+
+在 `index.html` 中把 `vconsole.js` 注释去掉，即可使用 vconsole
+
 ### 贡献
 
 任何意见或建议，欢迎提 [issues](issues/new)，你也可以直接 fork 然后提 PR
