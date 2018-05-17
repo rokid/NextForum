@@ -5,11 +5,11 @@ NextForum 是基于 Vue/Vuex 技术栈，对 Discourse 论坛前端的深度改�
 
 > 新域名：forum.rokid.com
 
-### 船新版本
+### 全新版本
 
 PC端
 
-[![img](screenshot-pc.png)](screenshot-pc.png)
+![img](screenshot-pc.png)
 
 移动端
 
@@ -38,8 +38,8 @@ windows系统
 ### 启动
 
 ```sh
-$ yarn
 #不想用yarn，也可以用npm install
+$ yarn
 
 $ sudo npm run dev
 ```
