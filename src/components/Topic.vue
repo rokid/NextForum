@@ -26,7 +26,6 @@
       <ul v-infinite-scroll="onLoadMore" infinite-scroll-distance="10">
         <li class="post"
           :id="`post${index}`"
-          v-view="postViewHandler.bind(null, index)"
           v-for="(item, index) in cookedPosts">
           <div class="avatar">
             <img :src="avatar(item.avatar_template, item)"
@@ -39,7 +38,7 @@
               <span class="datetime">{{calendar(item.created_at)}}</span>
               <span class="floor">#{{index + 1}}</span>
             </div>
-            <div class="post-body" :id="`pangu-render${index}`" v-html="item.cooked"></div>
+            <div class="post-body js-pangu-render" v-html="item.cooked"></div>
             <div class="post-summary">
               <a class="likes"
                 :class="item.isLiked ? 'liked' : ''"
@@ -339,13 +338,12 @@ export default {
 
       if (this.rawTopic.posts_count === this.posts.length)
         return;
-
+      
       this.loadingMore = true
       var lastId = this.posts.length + 6
       var res = await this.$http.get(`/t/${this.$route.params.id}/${lastId}.json`)
       var next = res.data.post_stream.posts
-      console.log(next.length)
-
+      
       if (next && next.length) {
         for (let i = 0; i < next.length; i++) {
           let j = next[i].post_number - 1
@@ -353,6 +351,7 @@ export default {
         }
         this.$forceUpdate();
       }
+      
       this.loadingMore = false
     },
     async toggleBookmark(post) {
@@ -383,7 +382,7 @@ export default {
       } else {
         this.rendered = true
       }
-      pangu.spacingElementById('pangu-render0')
+      pangu.spacingElementByClassName('js-pangu-render')
     }, 300)
   },
 }
