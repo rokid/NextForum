@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="rokid-events">
-      <router-link to="/topic/2051" class="rokid-event-link"></router-link>
+      <router-link to="/topic/2023" class="rokid-event-link"></router-link>
     </div>
     <el-row class="rokid-row">
       <el-col :span="11" :xs="24" class="rokid-col rokid-excellent">
@@ -95,7 +95,7 @@ export default {
   border-radius: 4px;
   overflow: hidden;
   position: relative;
-  background-image: url('https://rokidweb.oss-cn-hangzhou.aliyuncs.com/skills/forum/pc0514.png');
+  background-image: url('https://rokidweb.oss-cn-hangzhou.aliyuncs.com/skills/banner/521pc.jpg');
   background-size: 100%;
 }
 .rokid-events .rokid-event-link {
@@ -157,7 +157,7 @@ export default {
 
 @media only screen and (max-width: 768px) {
   .rokid-events {
-    background-image: url('https://rokidweb.oss-cn-hangzhou.aliyuncs.com/skills/forum/mob0514.png');
+    background-image: url('https://rokidweb.oss-cn-hangzhou.aliyuncs.com/skills/banner/521app.jpg');
     background-size: 100%;
   }
   .container {
