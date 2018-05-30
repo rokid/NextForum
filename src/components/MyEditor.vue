@@ -167,7 +167,15 @@ export default {
       })
     },
     onUploadFileError(error) {
-      this.$alert(error.response.data.errors.join(''), '上传错误')
+      try {
+        if (error.response.data.errors.length > 0) {
+          this.$alert('文件类型不被允许（允许的文件类型有：jpg, jpeg, png, gif, tgz, zip, rar, json, so, pdf）', '错误')
+        } else {
+          this.$alert('上传文件错误', '错误')
+        }
+      } catch (error) {
+        this.$alert('上传的文件太大', '错误')
+      }
     },
     triggerupload(event){
       this.uploadElem.click()
