@@ -47,8 +47,11 @@ function createHttp(opts) {
   var _http = axios.create(opts)
   _http.interceptors.response.use((response) => {
     var username = response.headers['x-discourse-username']
-    if (username)
+    if (username) {
       store.dispatch('login', { username })
+    } else {
+      checkLoginState()
+    }
     return response
   })
   return _http
@@ -83,21 +86,33 @@ new Vue({
   template: '<App/>'
 })
 
+let loginStateChecking = false
+async function checkLoginState() {
+  if (!/ROKID_ACCOUNT_SESSION/.test(document.cookie) &&
+    loginStateChecking === true)
+    return
+  
+  loginStateChecking = true
+  const ssoUrl = `/get_sso_login_url?callback_url=${location.href}&set_cookie=${document.cookie}`
+  const res = await axios.get(ssoUrl)
+  if (res.data.complete) {
+    loginStateChecking = false
+    location.href = res.data.returnUrl;
+  }
+}
 
-postCreditsScene();
-
-function postCreditsScene(){
+!(function postCreditsScene() {
   // console.clear()
   console.info('你想干嘛？想跟我们一起play？请@大发');
   var charLogo = '\n ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄    ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄  \n▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░▌ \n▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░▌ ▐░▌  ▀▀▀▀█░█▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌\n▐░▌       ▐░▌▐░▌       ▐░▌▐░▌▐░▌       ▐░▌     ▐░▌       ▐░▌\n▐░█▄▄▄▄▄▄▄█░▌▐░▌       ▐░▌▐░▌░▌        ▐░▌     ▐░▌       ▐░▌\n▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░░▌         ▐░▌     ▐░▌       ▐░▌\n▐░█▀▀▀▀█░█▀▀ ▐░▌       ▐░▌▐░▌░▌        ▐░▌     ▐░▌       ▐░▌\n▐░▌     ▐░▌  ▐░▌       ▐░▌▐░▌▐░▌       ▐░▌     ▐░▌       ▐░▌\n▐░▌      ▐░▌ ▐░█▄▄▄▄▄▄▄█░▌▐░▌ ▐░▌  ▄▄▄▄█░█▄▄▄▄ ▐░█▄▄▄▄▄▄▄█░▌\n▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░▌ \n ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀    ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀  \n\n';
   console.log(charLogo)
   initShell();
   console.log(window.help)
-}
+})()
 
 function initShell() {
   var menu = {
-    'help': function(){
+    'help': function() {
       return `--------------------------------------------------------------
  -------------       cshell 一秒钟从入门到精通        ------------
  --------------------------------------------------------------
@@ -115,23 +130,23 @@ function initShell() {
  更多彩蛋等你发现
 `
     },
-    'bug': function(){
+    'bug': function() {
       return `你发现bug了？可以@大发向我们提交bug，或者fork me on github
  输入 dafa 了解大发，输入 fork 获取GitHub地址`;
     },
-    'fork': function(){
+    'fork': function() {
       return `点击链接查看文档：https://github.com/Rokid/NextForum`
     },
-    'whos': function(){
+    'whos': function() {
       return `dafa - 颜值担当
  sudo - bug担当
  yorkie - niubility担当
  misa - 你们这帮土人`
     },
-    'about': function(){
+    'about': function() {
       return `其实没什么，既然你诚心诚意的输入命令了，那我们就大发慈悲的告诉你：我们是 - welcome to the jungle ! 快来和我们一起玩！`
     },
-    'cshell': function(){
+    'cshell': function() {
       return `Console Shell，我叫它 cshell。哈哈，胡扯的，其实就是一个小idea而已，如果你感兴趣，欢迎 @sudo 跟我一起脑洞`
     }
   }
