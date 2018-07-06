@@ -205,7 +205,8 @@ export default {
         return false;
       }
     },
-    async postNewDiscussion() {
+    postNewDiscussion() {
+      // 侧边栏讨论发布按钮
       var { data } = this.$refs.newDiscussionForm;
       
       if (!data.topic) {
@@ -222,7 +223,7 @@ export default {
       }
 
       this.postingNew = true;
-      var response = await this.$http.post("/posts", {
+      this.$http.post("/posts", {
         raw: data.contents,
         title: data.topic,
         unlist_topic: false,
@@ -232,22 +233,38 @@ export default {
         typing_duration_msecs: 3800,
         tags: data.tags,
         nested_post: true
+      }).then((response) => {
+        this.postingNew = false;
+        if (response.data.success) {
+          // 关闭发布弹窗
+          this.newDiscussionDialogVisible = false;
+          this.$router.push({
+            path: `/topic/${response.data.post.topic_id}`
+          });
+        } else {
+          this.$message({
+            type: "error",
+            message: "服务器正忙，请稍后再试"
+          });
+          console.error("post occurs error", response);
+        }
+      }).catch((error) => {
+        this.postingNew = false;
+        if (error.response.data.errors && error.response.data.errors.length > 0) {
+          this.$message({
+            type: 'error',
+            message: '发布失败：' + error.response.data.errors.join('')
+          });
+        }else{
+          this.$message({
+            type: 'error',
+            message: '发布失败：未知的错误！'
+          });
+        }
       });
-      this.postingNew = false;
-      if (response.data.success) {
-        this.newDiscussionDialogVisible = false;
-        this.$router.push({
-          path: `/topic/${response.data.post.topic_id}`
-        });
-      } else {
-        this.$message({
-          type: "error",
-          message: "服务器正忙，请稍后再试"
-        });
-        console.error("post occurs error", response);
-      }
     },
-    async postNewDiscussion2() {
+    postNewDiscussion2() {
+      // 移动端讨论发布按钮
       var { data } = this.$refs.newDiscussionForm2;
       if (!data.topic) {
         this.$message({ type: "error", message: "主题不可为空" });
@@ -263,7 +280,7 @@ export default {
       }
 
       this.postingNew2 = true;
-      var response = await this.$http.post("/posts", {
+      this.$http.post("/posts", {
         raw: data.contents,
         title: data.topic,
         unlist_topic: false,
@@ -273,20 +290,34 @@ export default {
         typing_duration_msecs: 3800,
         tags: data.tags,
         nested_post: true
-      });
-      this.postingNew2 = false;
-      if (response.data.success) {
-        this.newDiscussionDialogVisible2 = false;
-        this.$router.push({
-          path: `/topic/${response.data.post.id}`
-        });
-      } else {
-        this.$message({
-          type: "error",
-          message: "服务器正忙，请稍后再试"
-        });
-        console.error("post occurs error", response);
-      }
+      }).then((response) => {
+        this.postingNew2 = false;
+        if (response.data.success) {
+          this.newDiscussionDialogVisible2 = false;
+          this.$router.push({
+            path: `/topic/${response.data.post.id}`
+          });
+        } else {
+          this.$message({
+            type: "error",
+            message: "服务器正忙，请稍后再试"
+          });
+          console.error("post occurs error", response);
+        }
+      }).catch((error) => {
+        this.postingNew2 = false;
+        if (error.response.data.errors && error.response.data.errors.length > 0) {
+          this.$message({
+            type: 'error',
+            message: '发布失败：' + error.response.data.errors.join('')
+          });
+        }else{
+          this.$message({
+            type: 'error',
+            message: '发布失败：未知的错误！'
+          });
+        }
+      })
     },
     async checkSubCategories(route = this.$route) {
       this.subCategories = [];

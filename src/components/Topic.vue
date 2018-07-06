@@ -26,7 +26,6 @@
       <ul v-infinite-scroll="onLoadMore" infinite-scroll-distance="10">
         <li class="post"
           :id="`post${index}`"
-          v-view="postViewHandler.bind(null, index)"
           v-for="(item, index) in cookedPosts">
           <div class="avatar">
             <img :src="avatar(item.avatar_template, item)"
@@ -39,7 +38,7 @@
               <span class="datetime">{{calendar(item.created_at)}}</span>
               <span class="floor">#{{index + 1}}</span>
             </div>
-            <div class="post-body" :id="`pangu-render${index}`" v-html="item.cooked"></div>
+            <div class="post-body js-pangu-render" v-html="item.cooked"></div>
             <div class="post-summary">
               <a class="likes"
                 :class="item.isLiked ? 'liked' : ''"
@@ -131,6 +130,7 @@ export default {
     return {
       title: null,
       posts: [],
+      stream: [],
       avatarSize: 48,
       loading: true,
       loadingMore: false,
@@ -332,27 +332,44 @@ export default {
       this.title = res.data.title
       this.posts = res.data.post_stream.posts
       this.loading = false
+      
+      var postHash = {}
+      var i = 0
+      for(i = 0; i < this.posts.length; i++) {
+        postHash[this.posts[i].id] = true
+      }
+      var stream = res.data.post_stream.stream
+      var unique = []
+      for(i = 0; i < stream.length; i++) {
+        if (!postHash[stream[i]]) {
+          unique.push(stream[i])
+        }
+      }
+      this.stream = unique
     },
     async onLoadMore() {
-      if (this.loadingMore || this.loading)
+      if (this.loadingMore || this.loading) {
         return;
-
-      if (this.rawTopic.posts_count === this.posts.length)
+      }
+      if (this.rawTopic.posts_count === this.posts.length) {
         return;
+      }
+      if (this.stream.length <= 0) {
+        return;
+      }
+      var nextPageStream = this.stream.splice(0, 20)
 
       this.loadingMore = true
-      var lastId = this.posts.length + 6
-      var res = await this.$http.get(`/t/${this.$route.params.id}/${lastId}.json`)
-      var next = res.data.post_stream.posts
-      console.log(next.length)
-
-      if (next && next.length) {
-        for (let i = 0; i < next.length; i++) {
-          let j = next[i].post_number - 1
-          this.posts[j] = next[i]
+      
+      var res = await this.$http.get(`/t/${this.$route.params.id}/posts.json`, {
+        params: {
+          post_ids: nextPageStream
         }
-        this.$forceUpdate();
-      }
+      })
+      var next = res.data.post_stream.posts
+      
+      this.posts = this.posts.concat(next)
+      
       this.loadingMore = false
     },
     async toggleBookmark(post) {
@@ -383,7 +400,7 @@ export default {
       } else {
         this.rendered = true
       }
-      pangu.spacingElementById('pangu-render0')
+      pangu.spacingElementByClassName('js-pangu-render')
     }, 300)
   },
 }

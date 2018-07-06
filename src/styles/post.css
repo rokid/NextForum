@@ -79,7 +79,8 @@
 .post-body li > img,
 .post-body p > img {
   height: auto;
-  width: 95%;
+  width: auto;
+  max-width: 100%;
   display: block;
   margin: 30px auto;
   border: 1px solid #c9c9c9;
@@ -104,8 +105,9 @@
   display: inline-block;
 }
 .post-body .lightbox-wrapper a > img {
-  width: 100%;
+  width: auto;
   height: auto;
+  max-width: 100%;
   border: 0;
   margin: 10px 0;
 }

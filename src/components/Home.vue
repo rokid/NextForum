@@ -142,6 +142,7 @@ export default {
 .rokid-col li {
   margin: 5px 0;
   list-style: circle inside;
+  padding-left: 2px;
 }
 
 .rokid-col li a {

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <a class="github-link" href="https://github.com/Rokid/NextForum"><img style="position: fixed; z-index: 2300; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+    <a class="github-link" href="https://github.com/Rokid/NextForum"><img style="position: fixed; z-index: 1400; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
     <header id="app-header" :class="scrolled ? 'layup' : ''">
       <div class="inner">
         <fa-icon icon="bars" @click="toggleShowMobMenu" class="mob-menu"></fa-icon>
