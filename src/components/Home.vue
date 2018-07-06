@@ -95,7 +95,7 @@ export default {
   border-radius: 4px;
   overflow: hidden;
   position: relative;
-  background-image: url('https://rokidweb.oss-cn-hangzhou.aliyuncs.com/skills/banner/521pc.jpg');
+  background-image: url('https://rokidweb.oss-cn-hangzhou.aliyuncs.com/skills/banner/0706large.png');
   background-size: 100%;
 }
 .rokid-events .rokid-event-link {
@@ -157,7 +157,7 @@ export default {
 
 @media only screen and (max-width: 768px) {
   .rokid-events {
-    background-image: url('https://rokidweb.oss-cn-hangzhou.aliyuncs.com/skills/banner/521app.jpg');
+    background-image: url('https://rokidweb.oss-cn-hangzhou.aliyuncs.com/skills/banner/0706mini.png');
     background-size: 100%;
   }
   .container {
