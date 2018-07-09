@@ -3,6 +3,7 @@ const fs = require('fs')
 const url = require('url')
 const path = require('path')
 const https = require('https')
+const cookie = require('cookieparser');
 const app = require('express')()
 const targetHost = 'developer-forum.rokid.com'
 
@@ -36,17 +37,27 @@ app.get('/get_sso_login_url', (req, res) => {
   https.get(discourseSsoUrl, (discourseResponse) => {
     const query = url.parse(discourseResponse.headers.location).hash.slice(1)
     const data = url.parse(query, true).query
+    const setCookie = cookie.parse(req.query.set_cookie)
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Content-Type', 'application/json')
+
+    const cookieStr = [
+      `userName=${encodeURIComponent(setCookie.userName)}`,
+      `headerIcon=${encodeURIComponent(setCookie.headerIcon)}`,
+      `ROKID_ACCOUNT_SESSION=${setCookie['ROKID_ACCOUNT_SESSION']}`,
+    ].join('; ')
+
+    console.log('set request', setCookie, cookieStr)
     const rokidRequest = https.request({
       method: 'POST',
       host: rokidBackend,
       path: '/accounts/forumLogin.do',
       headers: {
         'Content-Type': 'application/json',
-        'Cookie': req.query.set_cookie,
-      }
+        'Cookie': cookieStr,
+      },
     }, (accountResponse) => {
+      console.log(accountResponse.statusCode);
       res.writeHead(accountResponse.statusCode)
       accountResponse.pipe(res)
     })
@@ -71,10 +82,16 @@ app.get('/*\.:ext', (req, res) => {
 })
 
 app.get('*', (req, res) => {
-  const html = fs.createReadStream(
-    path.join(__dirname, './dist/index.html'))
-  res.type('html')
-  html.pipe(res)
+  const filePath = path.join(__dirname, './dist/index.html')
+  fs.exists(filePath, (exists) => {
+    if (!exists) {
+      res.writeHead(404)
+      res.end('not found')
+      return
+    }
+    res.type('html')
+    fs.createReadStream(filePath).pipe(res)
+  })
 })
 
 app.listen(process.env.PORT || 8080)
