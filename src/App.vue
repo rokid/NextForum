@@ -23,7 +23,7 @@
               </el-badge>
             </router-link>
             <a id="header-login-btn" :href="loginUrl" v-if="!authorized">登录</a>
-            <a id="header-login-btn" v-else :href="profileUrl">
+            <a id="header-login-btn" v-else :href="profileUrl" target="_blank">
               <fa-icon icon="user" />
             </a>
           </el-col>
