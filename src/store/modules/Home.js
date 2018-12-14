@@ -45,7 +45,7 @@ var actions = {
     }
 
     await Promise.all([
-      Vue.http.get('/latest.json?tags=极客教程')
+      Vue.http.get('/latest.json?tags=精华分享')
         .then(select).then(render('updateExcellentTopics')),
       Vue.http.get('/latest.json?tags=官方教程')
         .then(select).then(render('updateTutorialTopics')),
