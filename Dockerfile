@@ -15,7 +15,7 @@ COPY build          /opt/app/build
 COPY config         /opt/app/config
 COPY static         /opt/app/static
 
-RUN  npm install --registry=https://registry.npm.taobao.org
+RUN  npm install --registry=https://registry.npmmirror.com
 RUN  npm run build
 
 EXPOSE 8080
